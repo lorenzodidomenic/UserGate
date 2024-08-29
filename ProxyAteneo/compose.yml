@@ -1,0 +1,33 @@
+version: "1.0"
+services: 
+  proxy:
+      image: proxy
+      hostname: proxy
+      container_name: proxy
+      ports:
+            - 389:389
+      command: manager.sh
+      networks: 
+                dmii:
+                    ipv4_address: 10.0.200.20
+  app:
+      image: app 
+      hostname: app
+      container_name: app
+      ports: 
+           - 8083:8082
+      command: npm start
+      networks: 
+                dmii:
+                    ipv4_address: 10.0.200.21
+      depends_on:
+            - proxy
+networks:
+    dmii:
+        name: dmii
+        driver: bridge
+        ipam: 
+            config:
+                 - subnet: 10.0.200.0/24
+       # external: true
+       

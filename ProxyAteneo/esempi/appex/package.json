@@ -1,0 +1,15 @@
+{
+  "name": "appex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "ldapjs": "^3.0.7"
+  }
+}

@@ -1,0 +1,21 @@
+dn: dc=local,dc=unict,dc=ad
+objectclass: domain
+dc: local
+
+
+dn: ou=GroupLocal,dc=local,dc=unict,dc=ad
+objectclass: organizationalUnit
+ou: GroupLocal
+
+dn: ou=People,dc=local,dc=unict,dc=ad
+objectclass: organizationalUnit
+ou: People
+
+dn: uid=test1,ou=People,dc=local,dc=unict,dc=ad
+objectclass: account
+uid: test1
+               
+dn: cn=testgroup,ou=GroupLocal,dc=local,dc=unict,dc=ad
+objectclass: groupOfNames
+cn: testgroup
+member: uid=test1,ou=People,dc=local,dc=unict,dc=ad

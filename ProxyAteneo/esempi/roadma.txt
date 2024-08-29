@@ -1,0 +1,135 @@
+query:ldapsearch -H "ldap://localhost" -D "cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad" -W -b "dc=unict,dc=ad" -s sub "(sAMAccountName=DDMLNZ03B03F943C)"
+
+
+ldapsearch -H "ldap://localhost" -D "cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad" -W -b "dc=unict,dc=ad" "(carLicense=VALID)"
+
+aggiunta 
+
+dn: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+objectClass: inetOrgPerson
+objectClass: top
+carLicense: VALID
+
+ldapadd -x -W -D "cn=admin,dc=local,dc=unict,dc=ad" -f add.ldif
+///proxy funzionante
+
+include                 /etc/ldap/schema/core.schema
+include                 /etc/ldap/schema/cosine.schema
+include                 /etc/ldap/schema/inetorgperson.schema
+include                 /etc/ldap/schema/misc.schema
+include                 /etc/ldap/schema/nis.schema
+
+moduleload  back_mdb
+moduleload  /usr/lib/ldap/translucent.la
+moduleload   back_ldap
+
+pidfile                 /var/run/slapd/slapd.pid
+argsfile                /var/run/slapd/slapd.args
+
+database    mdb
+suffix      "dc=unict,dc=ad"
+rootdn      "cn=admin,dc=unict,dc=ad"
+rootpw      palazzolo
+directory  /var/lib/ldap
+
+overlay     translucent
+translucent_local carLicense
+translucent_remote objectClass
+
+uri         ldap://151.97.242.92
+lastmod     off
+acl-bind    binddn="cn=admin,dc=unict,dc=ad" credentials=“palazzolo“
+
+////se provo questo come proxy 
+
+### Schema includes ###########################################################
+include                 /etc/ldap/schema/core.schema
+include                 /etc/ldap/schema/cosine.schema
+include                 /etc/ldap/schema/inetorgperson.schema
+include                 /etc/ldap/schema/misc.schema
+include                 /etc/ldap/schema/nis.schema
+
+## Module paths ##############################################################
+modulepath              /usr/lib/ldap/
+moduleload              back_ldap
+moduleload              rwm
+
+# Main settings ###############################################################
+pidfile                 /var/run/slapd/slapd.pid
+argsfile                /var/run/slapd/slapd.args
+
+### Database definition (Proxy to AD) #########################################
+database                ldap
+readonly                yes
+protocol-version        3
+rebind-as-user
+uri                     "ldap://151.97.242.92:389"
+suffix                  "dc=unict,dc=ad"
+overlay                 rwm
+rwm-map                 attribute       uid     sAMAccountName
+rwm-map                 attribute       mail    proxyAddresses
+
+### Logging ###################################################################
+loglevel                0
+
+
+
+-----
+
+# Define the database type
+database    mdb
+
+# Define the root DN for the database
+suffix      "dc=example,dc=com"
+
+# Define the root DN entry
+rootdn      "cn=admin,dc=example,dc=com"
+
+# Define the root password (hash the password with slappasswd tool)
+rootpw      {SSHA}hashedpassword
+
+# Define the directory for the database files
+directory   /var/lib/ldap
+
+# Indexing options
+index       objectClass eq
+index       cn,sn,uid pres,eq,sub
+
+# Additional configurations
+maxsize     1073741824
+maxreaders  126
+cachesize   1000
+dncacheentries 1000
+
+# Access Control Lists (ACLs)
+access to attrs=userPassword,shadowLastChange
+    by dn="cn=admin,dc=example,dc=com" write
+    by anonymous auth
+    by self write
+    by * none
+
+access to *
+    by dn="cn=admin,dc=example,dc=com" write
+    by * read
+
+dn: dc=local,dc=unict,dc=ad
+objectClass: top
+objectClass: domain
+dc: local
+
+dn: cn=Utente Locale,dc=local,dc=unict,dc=ad
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: Utente Locale
+sn: Locale
+
+dn: ou=StudentiInformatica,ou=Studenti,dc=unict,dc=ad
+cn: StudentiInformatica
+gidNumber: 20007
+objectClass: groupOfNames
+objectClass: posixGroup
+objectClass: top
+member: cn=Utente Locale, ou=
+

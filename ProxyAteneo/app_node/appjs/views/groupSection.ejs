@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy</title>
+    <link rel="stylesheet" href="./assets/css/groupSection.css">
+</head>
+<body>
+    
+
+    <div id="intro">
+        <h1> Groups Managment </h1>
+    </div>
+    
+
+
+    <div id="searchContainer">
+        <input type="text" id="queryInput" placheholder="Inserisci Filtro"> <button class="button">Bottone ricerca</button>
+
+        <div id="filterContainer">
+            <div id="row"><span> Base </span> <input type="text" id="filterBase" placeholder="Base ricerca" value="ou=Gruppi Locali,dc=unict,dc=ad"> <br> </div>
+            <div id="row"><span> Nome Gruppo </span> <input type="text" id="filterGroupName" placeholder="Nome Gruppo"> <br> </div>
+            <button id="filterButton">Crea Filtro</button>
+            <button id="filterClearButton">Pulisci Filtro</button>
+            <div id="rowAdd">
+                <button id="addGroup">Crea Gruppo</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="container">
+    </div>
+
+    <div id="containerGroupInfo">
+    </div>
+
+    <div id="addMember">
+        <input id="dnMember" type="text" placeholder="cf member">
+        <button id="saveMember">INSERISCI</button>
+    </div>
+ 
+    <script src="groupSection.js"></script>
+</body>
+</html>

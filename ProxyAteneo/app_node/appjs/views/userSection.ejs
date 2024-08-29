@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy</title>
+    <link rel="stylesheet" href="./assets/css/styleIndex.css">
+</head>
+<body>
+    
+
+    <div id="intro">
+        <h1> User Managment </h1>
+    </div>
+    
+
+
+    <div id="searchContainer">
+        <input type="text" id="queryInput" placheholder="Inserisci Filtro"> <button class="button">CERCA</button>
+
+        <div id="filterContainer">
+            <div id="row"><span> Base </span> <input type="text" id="filterBase" placeholder="Base ricerca" value="dc=unict,dc=ad"> <br> </div>
+            <div id="row"><span> Nome </span> <input type="text" id="filterName" placeholder="Nome utente"> <br> </div>
+            <div id="row"> <span> Cognome </span> <input type="text" id="filterSurname" placeholder="Cognome utente"> <br> </div>
+            <div id="row"> <span> Codice Fiscale </span> <input type="text" id="filtercf" placeholder="Codice Fiscale utente"> <br> </div>
+            <div id="row"> <span> Gruppo d'appartenenza </span> <input type="text" id="filterGroup" placeholder="Gruppo utente"> <br> </div>
+            <button id="filterButton">Crea Filtro</button>
+            <button id="filterClearButton">Pulisci Filtro</button>
+        </div>
+    </div>
+
+    <div id="container">
+    </div>
+
+    <div id="containerUserInfo">
+
+    </div>
+ 
+    <script src="userSection.js"></script>
+</body>
+</html>

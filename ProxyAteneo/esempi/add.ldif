@@ -1,0 +1,139 @@
+
+ldapadd -x -W -D "cn=admin,dc=unict,dc=ad" -f add.ldif
+
+dn: dc=unict,dc=ad
+objectClass: top
+objectClass: domain
+dc: unict
+
+dn: ou=Studenti,dc=unict,dc=ad
+ou: Studenti
+objectClass: organizationalUnit
+
+dn: ou=Gruppi Studenti,dc=unict,dc=ad
+ou: Gruppi Studenti
+objectClass: organizationalUnit
+
+dn: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+objectClass: top
+cn: DDMLNZ03B03F943C
+name: DDMLNZ03B03F943C
+
+dn: cn=Studenti Abilitati Vpn,ou=Gruppi Studenti,dc=unict,dc=ad
+objectClass: top
+objectClass: groupOfNames
+member: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+cn: Studenti Abilitati Vpn
+name: Studenti Abilitati Vpn
+
+dn: cn=grp,ou=Gruppi Studenti,dc=unict,dc=ad
+objectClass: top
+objectClass: groupOfNames
+member: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+cn: grp
+
+
+dn: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+objectClass: inetOrgPerson
+objectClass: posixAccount
+cn: DDMLNZ03B03F943C
+uidNumber: 1000
+gidNumber: 1000
+homeDirectory: /home/matt
+loginShell: /bin/bash
+
+ldapadd -x -W -D "cn=admin,dc=local,dc=unict,dc=ad" -f add.ldif
+
+dn: dc=local,dc=unict,dc=ad
+objectClass: top
+objectClass: domain
+dc: local
+
+
+dn: cn=UtenteLocale,dc=local,dc=unict,dc=ad
+objectClass: person
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+givenName: UtenteLocale
+sn: Locale
+uid: UtenteLocale
+uidNumber: 1
+gidNumber: 100
+homeDirectory: /home/adam
+loginShell: /bin/bash
+gecos: adam
+userPassword: {crypt}
+
+dn: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+objectClass: person
+objectClass: top
+givenName: Lorenzo
+sn: Didomenico
+
+dn: cn=grp,dc=local,dc=unict,dc=ad
+objectClass: top
+objectClass: groupOfNames
+member: cn=UtenteLocale,dc=local,dc=unict,dc=ad
+member: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+
+
+
+--------------------+
+
+
+dn: dc=unict,dc=ad
+objectClass: top
+objectClass: domain
+dc: unict
+
+dn: ou=Studenti,dc=unict,dc=ad
+ou: Studenti
+objectClass: organizationalUnit
+
+dn: ou= Gruppi Studenti,dc=unict,dc=ad
+ou: Gruppi Studenti
+objectClass: organizationalUnit
+
+dn: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+objectClass: person
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+givenName: Lorenzo
+sn: Didomenico
+uid: DDMLNZ03B03F943C
+uidNumber: 1
+gidNumber: 100
+
+dn: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+objectClass: top
+
+dn: cn=grp,dc=unict,dc=ad
+objectClass: top
+objectClass: groupOfNames
+member: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+
+
+dn: cn=grp,dc=unict,dc=ad
+objectClass: top
+objectClass: groupOfNames
+objectClass: posixGroup
+member: cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad
+cn: grp
+memberuid: DDMLNZ03B03F943C
+uidNumber: 2
+gidNumber: 101
+
+objectClass: group
+
+
+
+
+SERVER ldapadd
+
+
+dn: ou=Studenti,dc=unict,dc=ad
+ou: Studenti
+objectClass: organizationalUnit
+

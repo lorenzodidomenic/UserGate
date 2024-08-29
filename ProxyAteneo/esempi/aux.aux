@@ -1,0 +1,23 @@
+PASSWORD: {SSHA}deb0PUly9GT7q8yV8IyGhfwg5kZzDpUx
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=lorenzo,dc=dido,dc=it
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=admin,dc=lorenzo,dc=dido,dc=it
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW:{SSHA}deb0PUly9GT7q8yV8IyGhfwg5kZzDpUx
+
+
+FILE AGGIUNTA
+dn: cn=lorenzo,ou=groups,dc=lorenzo,dc=dido,dc=it
+objectClass: top
+objectClass: posixGroup
+gidNumber: 1273800098

@@ -1,0 +1,9 @@
+dn: dc=unict,dc=ad
+objectClass: top
+objectClass: domain
+dc: unict
+
+dn: ou=Gruppi Locali,dc=unict,dc=ad
+ou: Gruppi Locali
+objectClass: organizationalUnit
+

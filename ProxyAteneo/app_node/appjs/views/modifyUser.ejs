@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Info</title>
+    <link rel="stylesheet" href="./assets/css/styleUserInfo.css">
+</head>
+<body>
+
+
+    <h1 style="text-align: center"> PAGINA INFORMAZIONI UTENTE </h1>
+     <% if(entries.length > 0) { %> 
+
+     <div id="userInfo">
+        <% for(let i = 0; i < entries.length ; i++){ %> 
+
+            <% if(entries[i].type == "MEMBEROFGROUP"){%>
+                <div class="entryRow" style="display: none;"> <span><%=entries[i].type%></span> &nbsp &nbsp <span contenteditable="true" id="<%=entries[i].type%>" class="entrySpanInfo"><%= entries[i].value %></span> </div>
+                <% for(var j = 0; j < entries[i].value.length; j++){ %>
+           <div class="entryRow""> <span><%=entries[i].type%></span> &nbsp &nbsp <span contenteditable="true" id="<%=entries[i].type%>" class="entrySpanInfo"> <%= entries[i].value[j] %> </span> <button class="deleteMemberOfBtn" cn="<%=entries[i].value[j] %>"> Rimuovi </button></div>
+           <% }
+            }else if((entries[i].type == "cn")||(entries[i].type == "sn") ||(entries[i].type == "givenName")||(entries[i].type == "mail")){
+                if(entries[i].local != true){%>
+           <div class="entryRow"> <span><%=entries[i].type%></span> &nbsp &nbsp <span id="<%=entries[i].type%>" class="entrySpanInfo" contenteditable="true"> <%= entries[i].value %> </span> </div>
+           <% }else{ %>
+            <div class="entryRow" local="true"> <span><%=entries[i].type%></span> &nbsp &nbsp <span id="<%=entries[i].type%>" class="entrySpanInfo" contenteditable="true"> <%= entries[i].value %> </span> </div>
+        <% }}} %> 
+        
+
+     <% } else { %> 
+        <span> Nessuna entries disponibile per l'utente </span>
+    <% } %>
+
+
+    <div style="text-align: center"> <button id="saveBtn" >SALVA </button> </div> <!--al click su questo bottone faccio la modifica dell'utente -->
+
+     </div>
+
+     <script src="modifyUser.js"></script>
+</body>
+</html>
