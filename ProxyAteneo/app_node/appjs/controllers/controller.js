@@ -91,7 +91,9 @@ const loginView = async (req , res) =>{
 
         console.log(sessions)
         res.cookie("session_token",sessionToken,{expires: expiresAt})*/
-        req.session.user = bindcf
+        if(!req.session.user){  //se ancora req.session.user per quella sessione non esiste lo creo
+            req.session.user = [bindcf,bindpassword]
+        }
         console.log(req.session)
         
         res.status(200).send("login Ok")
@@ -141,14 +143,17 @@ const introView = (req,res) =>{
     
     console.log(userSession)
     console.log("Tutti controlli a buon fine")*/
-    if(req.session.user)
+    if(req.session.user){   //se esiste per quella sessione user vuol dire che ha fatto il login
+    credentials = req.session.user
+    console.log(credentials)
     res.render("./intro");
+    }
     else 
     res.status(401).send('Unauthorized. Please log in.');
 }
 /* mi port alla sezione ricerca utenti*/
 const userSectionView = (req,res)=>{
-    if(req.session.user)
+    if(req.session.user)  //se esiste per quella sessione user vuol dire che ha fatto login
     res.render("./userSection");
     else 
     res.status(401).send('Unauthorized. Please log in.');
@@ -171,7 +176,8 @@ const searchView = async (req,res)=>{
 
     try {
 
-        await client.bind(bindcf, bindpassword);
+        //await client.bind(bindcf, bindpassword);
+        await client.bind(req.session.user[0], req.session.user[1]);  //prendo di quella sessione il codice fiscele e la password
         console.log("bind andato a buon fine ")
         
         const searchOptions = {
@@ -220,7 +226,8 @@ const userInfoView = async (req,res)=>{
 
      try {
 
-        await client.bind(bindcf, bindpassword);
+        //await client.bind(bindcf, bindpassword);
+        await client.bind(req.session.user[0],req.session.user[1])
         console.log("bind andat a buon fine ")
         
         const searchOptions = {
@@ -247,7 +254,8 @@ const userInfoView = async (req,res)=>{
             url: "ldap://151.97.242.92"
         })
 
-        await clientToAD.bind(bindcf, bindpassword);
+       // await clientToAD.bind(bindcf, bindpassword);
+       await clientToAD.bind(req.session.user[0],req.session.user[1])
         console.log("bind andat a buon fine ")
         entriesAd = await clientToAD.search(userSearchBase,searchOptions);
         console.log(entriesAd)
@@ -304,7 +312,10 @@ const modifyUserView = async (req, res) => {
     if(req.session.user){
     try {
 
-        await client.bind(bindcf, bindpassword);  //bind cf e bind password presi al login
+        //await client.bind(bindcf, bindpassword);  //bind cf e bind password presi al login
+        await client.bind(req.session.user[0],req.session.user[1])
+       
+       
         console.log("bind andato a buon fine ")
         
         const searchOptions = {
@@ -319,7 +330,8 @@ const modifyUserView = async (req, res) => {
             url: "ldap://151.97.242.92"
         })
 
-        await clientToAD.bind(bindcf, bindpassword);
+        //await clientToAD.bind(bindcf, bindpassword);
+        await clientToAD.bind(req.session.user[0],req.session.user[1])
         console.log("bind andat a buon fine ")
         entriesAd = await clientToAD.search(userSearchBase,searchOptions);
         console.log(entriesAd)
@@ -389,7 +401,8 @@ const modifyUserInfoView = async (req,res)=>{
 
        
        // await client.bind("cn=admin,ou=Studenti,dc=unict,dc=ad","palazzolo"); //questo con le credenziali di rootdn
-        await client.bind(bindcf,bindpassword);
+        //await client.bind(bindcf,bindpassword);
+        await client.bind(req.session.user[0],req.session.user[1])
         console.log("bind modify andat a buon fine ")
 
         modifiedAttributes = []
@@ -468,7 +481,8 @@ const searchGroupsView = async (req,res)=>{
 
      try {
 
-        await client.bind(bindcf, bindpassword);
+        //await client.bind(bindcf, bindpassword);
+        await client.bind(req.session.user[0],req.session.user[1])
         console.log("bind andatO a buon fine ")
         
         if((req.query["query"]!=undefined) && (req.query["query"].length != 0)){
@@ -521,7 +535,8 @@ const groupInfoView = async (req,res)=>{
 
      try {
 
-        await client.bind(bindcf, bindpassword);
+        //await client.bind(bindcf, bindpassword);
+        await client.bind(req.session.user[0],req.session.user[1])
         console.log("bind andatO a buon fine ")
         
         const searchOptions = {
@@ -585,7 +600,8 @@ const saveGroupView = async (req,res)=>{
    
     try {
         //await client.bind("cn=admin,dc=unict,dc=ad","palazzolo");
-        await client.bind(bindcf,bindpassword);
+       // await client.bind(bindcf,bindpassword);
+       await client.bind(req.session.user[0],req.session.user[1]) 
         console.log("bind andat a buon fine ")
 
         const entry= {
@@ -626,7 +642,8 @@ const addMemberView = async (req,res)=>{
 
     try{
         //await clientAux.bind("cn=admin,ou=Studenti,dc=unict,dc=ad","palazzolo");
-        await clientAux.bind(bindcf,bindpassword);
+        //await clientAux.bind(bindcf,bindpassword);
+        await clientAux.bind(req.session.user[0],req.session.user[1])
         console.log("bind modifica andat a buon fine ")
     
         await clientAux.add("cn="+member.cnMember+",ou=Studenti,dc=unict,dc=ad", entry);
@@ -638,7 +655,8 @@ const addMemberView = async (req,res)=>{
     try {
 
         //await clientAux.bind("cn=admin,ou=Studenti,dc=unict,dc=ad","palazzolo");
-        await clientAux.bind(bindcf,bindpassword);
+        //await clientAux.bind(bindcf,bindpassword);
+        await clientAux.bind(req.session.user[0],req.session.user[1])
         console.log("bind andat a buon fine ")
 
         const change2 = {
@@ -657,7 +675,8 @@ const addMemberView = async (req,res)=>{
     try {
 
         //await client.bind("cn=admin,dc=unict,dc=ad","palazzolo");
-        await client.bind(bindcf,bindpassword);
+        //await client.bind(bindcf,bindpassword);
+        await client.bind(req.session.user[0],req.session.user[1])
         console.log("bind andat a buon fine ")
 
         const change3 = {
@@ -691,7 +710,8 @@ const modifyMembershipView = async (req,res)=>{
     try {
 
        // await client.bind("cn=admin,dc=unict,dc=ad","palazzolo");
-       await client.bind(bindcf,bindpassword);
+       //await client.bind(bindcf,bindpassword);
+       await client.bind(req.session.user[0],req.session.user[1])
         console.log("bind andat a buon fine ")
 
         const change = {
@@ -712,7 +732,8 @@ const modifyMembershipView = async (req,res)=>{
       try {
 
        // await clientAux.bind("cn=admin,ou=Studenti,dc=unict,dc=ad","palazzolo");
-       await clientAux.bind(bindcf,bindpassword);
+       //await clientAux.bind(bindcf,bindpassword);
+       await clientAux.bind(req.session.user[0],req.session.user[1])
         console.log("bind andat a buon fine ")
 
         const change2 = {
