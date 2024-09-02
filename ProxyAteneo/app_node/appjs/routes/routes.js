@@ -13,7 +13,8 @@ const  { modifyUserView,
          groupInfoView,
          saveGroupView,
          addMemberView,
-         modifyMembershipView} = require('../controllers/controller');  //prendo la view dal controller
+         modifyMembershipView,
+         saveUserView} = require('../controllers/controller');  //prendo la view dal controller
 const ldap = require("ldapjs")
 const bodyParser  = require('body-parser');
 //const cookieParser = require('cookie-parser');
@@ -38,6 +39,7 @@ router.get("/intro",introView)
 router.get("/userSection",userSectionView)
 router.get("/groupSection",groupSectionView)
 router.post("/addMember",addMemberView);
+router.post("/saveUser",saveUserView)
 
 //QUESTE VARIABILI D'AMBIENTE
 const serverUrl = 'ldap://10.0.200.20:389';   //indirizzo ip del container col server ldap

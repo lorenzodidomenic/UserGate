@@ -28,6 +28,7 @@ WORKDIR /etc/ldap
 ADD addMemberOf.ldif .
 ADD composeStructure.ldif .
 ADD composeStructureTraslucent.ldif .
+ADD compose2.ldif .
 
 ENTRYPOINT  [ "manager.sh"]
 

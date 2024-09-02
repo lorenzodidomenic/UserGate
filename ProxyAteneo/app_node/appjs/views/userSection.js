@@ -72,12 +72,13 @@ window.onload= ()=>{
                     response_mex = await response.json();
 
                     console.log(response_mex)
+                    divHiden = document.createElement("div")
                     
                     this.containerUserInfo.innerHTML = ""
                     for(let i = 0; i< response_mex.length; i++){
                         mex = document.createElement("div")
                         mex.classList = ["entryRow"]
-
+                        console.log(response_mex[i].type)
                         if((response_mex[i].type == "cn") || (response_mex[i].type == "MEMBEROFGROUP") || (response_mex[i].type == "sn") || (response_mex[i].type == "givenName")){
                         if(response_mex[i].type == "cn")
                         mex.setAttribute("id",response_mex[i].value)
@@ -109,8 +110,41 @@ window.onload= ()=>{
                             mex.setAttribute("local",true);
                        }
                         this.containerUserInfo.appendChild(mex)
+                    }else{
+                        console.log(response_mex[i].type)
+                        mex.classList = ["entryRowHidden"]
+                        mex.innerHTML = "<span>"+response_mex[i].type + ":"
+                        mex.innerHTML = "<span>"+response_mex[i].type + ":"+ response_mex[i].value 
+                        mex.innerHTML = mex.innerHTML +  "</span>"
+                        divHiden.appendChild(mex)
+
                     }
                 }
+                    divHiden.setAttribute("id","othersAttribute")
+                    mex = document.createElement("div")
+                    mex.classList = ["entryRow"]
+                    mex.innerHTML = "<span>  Altri attributi </span>"
+                    divHiden.appendChild(mex)
+                    containerUserInfo.appendChild(divHiden)
+
+                    divHiden.addEventListener("click", ()=>{
+                      mexHiddens = document.getElementsByClassName("entryRowHidden")
+                      for(mex of mexHiddens){
+                        console.log("mex")
+                        if(mex.style.display == "none")
+                        mex.style.display = "block"
+                    else
+                       mex.style.display = "none"
+                      }
+                   })
+                    /*
+                    mexBottonOthers = document.createElement("div")
+                    mexBottonOthers.classList = ["entryRow"]
+                    divHiden.appendChild(mexBottonOthers)
+                    mexBottonOthers.innerHtml = "<span> Altri attributi </span>"
+                    mexBottonOthers.setAttribute("id","bottonInfo")
+                    this.containerUserInfo.appendChild(mexBottonOthers)*/
+
                     
                     container.style.display = "none"
                     buttonSection = document.createElement("div")

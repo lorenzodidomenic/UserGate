@@ -9,6 +9,7 @@ window.onload = ()=>{
     searchContainer = document.getElementById("searchContainer")
     containerGroupInfo=document.getElementById("containerGroupInfo")
     buttonAddGroup = document.getElementById("addGroup")
+    buttonAddUser = document.getElementById("addUser")
     addMember = document.getElementById("addMember")
     saveMemberButton = document.getElementById("saveMember")
     dnMember = document.getElementById("dnMember")
@@ -241,6 +242,52 @@ this.buttonAddGroup.addEventListener("click",()=>{
 
     this.container.style.display = "block"
 
+
+})
+
+this.buttonAddUser.addEventListener("click",  ()=>{
+
+    console.log("faccio spuntare gli input che servono");
+    inputNameUser = document.createElement("input")
+    inputSurnameUser = document.createElement("input")
+    inputTelephoneUser = document.createElement("input")
+
+    buttonSaveUser = document.createElement("button")
+    buttonSaveUser.innerHTML = "Salva Utente"
+    this.inputNameUser.setAttribute("id","inputNameUser")
+    this.inputSurnameUser.setAttribute("id","inputSurnameUser")
+    this.inputTelephoneUser.setAttribute("id","inputTelephoneUser")
+    this.buttonSaveUser.setAttribute("id","buttonSaveUser")
+
+    this.buttonSaveUser.addEventListener("click", async ()=>{
+        console.log("voglio slaavare utente",this.inputNameUser.value,this.inputSurnameUser.value,this.inputTelephoneUser.value)
+
+        attributes = [];
+        attributes.push('{ "cn": "'+this.inputNameUser.value+this.inputSurnameUser.value+'"} ')
+        attributes.push('{ "sn": "'+this.inputSurnameUser.value+'"} ')
+        attributes.push('{ "telephoneNumber": "'+this.inputTelephoneUser.value+'"} ')
+
+        response = await fetch('http://localhost:8083/saveUser', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(attributes)
+          });
+
+          const content = await response.text();
+          if(content=="Ok"){
+            alert("Salvataggio Gruppo Riuscito")
+          }else{
+           this.loginError.style.display = "block"
+          }
+    })
+
+    this.searchContainer.appendChild(inputNameUser)
+    this.searchContainer.appendChild(inputSurnameUser)
+    this.searchContainer.appendChild(inputTelephoneUser)
+    this.searchContainer.appendChild(buttonSaveUser)
 
 })
 }

@@ -44,6 +44,17 @@ body{
     cursor: pointer;
 }
 
+.entryRowHidden{
+    border: 1px solid rgb(247, 246, 246);;
+    color: white;
+    border-radius: 5%;
+    margin: 20px;
+    background-color: black;
+    padding: 5px;
+    font-weight: bold;
+    display: none
+}
+
 #filterContainer{
     text-align: center;
     margin-top: 20px;
