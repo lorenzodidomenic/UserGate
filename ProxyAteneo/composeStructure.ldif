@@ -7,3 +7,7 @@ dn: ou=Gruppi Locali,dc=unict,dc=ad
 ou: Gruppi Locali
 objectClass: organizationalUnit
 
+dn: ou=Studenti Locali,dc=unict,dc=ad
+ou: Studenti Locali
+objectClass: organizationalUnit
+

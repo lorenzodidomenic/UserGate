@@ -233,7 +233,7 @@ const userInfoView = async (req,res)=>{
         const searchOptions = {
            scope: 'sub',
            filter: req.query["query"],
-           attributes: ["sn","givenName","cn","memberOf","MEMBEROFGROUP"],   //potrei far vedere solo gli attributi locali
+          // attributes: ["sn","givenName","cn","memberOf","MEMBEROFGROUP"],   //potrei far vedere solo gli attributi locali
            sizeLimit: 100000,
            timeLimit: 10000
         }
@@ -262,6 +262,14 @@ const userInfoView = async (req,res)=>{
         entryAd = entriesAd[0]
 
         //dovrei adesso confrontare le entry e se sono diverse gli metto come tipo local 
+        for(attributes in entry){
+            console.log(attributes)
+            console.log(entry[attributes])
+            if((attributes!="sn")||(attributes!="dn")||(attributes!="cn")||(attributes!="givenName")||(attributes!="MEMBEROFGROUP")){
+            attr = new Attribute(attributes,entry[attributes])
+            results.push(attr)
+            }
+        }
             
        if(entry != undefined){
         attrSn = new Attribute("sn",entry.sn.replace(/\s/g, ''))
@@ -750,7 +758,36 @@ const modifyMembershipView = async (req,res)=>{
       }
 }
 
+const saveUserView = async (req,res)=>{
+    entries = req.body
+    newUserCn = JSON.parse(entries[0])
+    newUserSn = JSON.parse(entries[1])
+    newUserTelephone = JSON.parse(entries[2])
+    
 
+    try {
+        //await client.bind("cn=admin,dc=unict,dc=ad","palazzolo");
+       // await client.bind(bindcf,bindpassword);
+       await client.bind(req.session.user[0],req.session.user[1]) 
+        console.log("bind andat a buon fine ")
+
+        const entry= {
+            objectClass: 'person',
+            cn: newUserCn["cn"],
+            sn: newUserSn["sn"],
+            telephoneNumber: newUserTelephone["telephoneNumber"]
+        };
+
+        
+      
+        await client.add("cn="+newUserCn["cn"]+ ",ou=Studenti Locali,dc=unict,dc=ad", entry);
+        console.log("Salvataggio ok")
+        res.send("Ok")
+      } catch (e) {
+        console.log(e)
+        console.log('Add failed');
+      }
+}
 module.exports = { modifyUserView,
                    indexView,
                    loginView,
@@ -764,4 +801,5 @@ module.exports = { modifyUserView,
                    groupInfoView,
                    saveGroupView,
                    addMemberView,
-                   modifyMembershipView} 
+                   modifyMembershipView,
+                   saveUserView} 

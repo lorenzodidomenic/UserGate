@@ -2,3 +2,7 @@
 dn: ou=Studenti,dc=unict,dc=ad
 ou: Studenti
 objectClass: organizationalUnit
+
+dn: ou=Gruppi Studenti,dc=unict,dc=ad
+ou: Studenti
+objectClass: organizationalUnit
