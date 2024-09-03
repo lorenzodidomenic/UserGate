@@ -262,15 +262,24 @@ const userInfoView = async (req,res)=>{
         entryAd = entriesAd[0]
 
         //dovrei adesso confrontare le entry e se sono diverse gli metto come tipo local 
+        if(entry != undefined){
         for(attributes in entry){
-            console.log(attributes)
+            
             console.log(entry[attributes])
-            if((attributes!="sn")||(attributes!="dn")||(attributes!="cn")||(attributes!="givenName")||(attributes!="MEMBEROFGROUP")){
-            attr = new Attribute(attributes,entry[attributes])
+            if((String(attributes)!="MEMBEROFGROUP")){
+            console.log(attributes)
+            attr = new Attribute(attributes,String(entry[attributes]).replace(/\s/g, ''))
+            if((String(entry[attributes]).replace(/\s/g, '').toLowerCase() != String(entryAd[attributes]).replace(/\s/g, '').toLowerCase()) || (entryAd[attributes] == undefined))
+                attr.local = true;
             results.push(attr)
             }
         }
-            
+        memberOfAttribute = Array.isArray(entry.MEMBEROFGROUP) ? entry.MEMBEROFGROUP : [entry.MEMBEROFGROUP];
+        attrMemberOf = new Attribute("MEMBEROFGROUP",memberOfAttribute)
+        results.push(attrMemberOf)
+    }
+
+    /*
        if(entry != undefined){
         attrSn = new Attribute("sn",entry.sn.replace(/\s/g, ''))
         if(entry.sn.replace(/\s/g, '').toLowerCase() != entryAd.sn.replace(/\s/g, '').toLowerCase())
@@ -292,7 +301,7 @@ const userInfoView = async (req,res)=>{
         memberOfAttribute = Array.isArray(entry.MEMBEROFGROUP) ? entry.MEMBEROFGROUP : [entry.MEMBEROFGROUP];
         attrMemberOf = new Attribute("MEMBEROFGROUP",memberOfAttribute)
         results.push(attrMemberOf)
-       }
+       }*/
         if(userExist){
             console.log(results)
             res.send(results)   //mando tutta la risposta completa, qui perchè così la manda solo a risposta completata

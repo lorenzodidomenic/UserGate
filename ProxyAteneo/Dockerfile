@@ -30,7 +30,7 @@ ADD composeStructure.ldif .
 ADD composeStructureTraslucent.ldif .
 ADD compose2.ldif .
 
-ENTRYPOINT  [ "manager.sh"]
+#ENTRYPOINT  [ "manager.sh"]
 
 #CMD         ["-h", "ldap:/// ldapi:/// ldaps:///", "-u", "openldap", "-g", "openldap", "-dStats,Stats2"]
 #perchè mi parte e mi si ferma il container

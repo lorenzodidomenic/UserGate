@@ -1,7 +1,8 @@
 version: "1.0"
 services: 
   proxy:
-      image: proxy
+      #image: proxy
+      build: .
       hostname: proxy
       container_name: proxy
       ports:
@@ -11,7 +12,8 @@ services:
                 dmii:
                     ipv4_address: 10.0.200.20
   app:
-      image: app 
+      #image: app 
+      build: ./app_node
       hostname: app
       container_name: app
       ports: 
