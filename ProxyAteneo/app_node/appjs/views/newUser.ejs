@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Proxy</title>
+        <link rel="stylesheet" href="./assets/css/newUser.css">
+        <link rel="icon" href="./assets/images/letter-t.png" type="image/x-icon"/>
+    </head>
+<body>
+
+  <img src="./assets/images/menu.png" class="menu-icon" id="openMenu">
+    <div class="menu-box" id="menu">
+       <div class="right-links">
+           <a href="boh" id="logoutButton">LOGOUT</a>
+           <img src="./assets/images/close.png" id="closeMenu">
+       </div>
+
+       <div class="menu-links">
+        <a href="#" id="homeButton">Home</a>
+        <a href="#" id="usersSectionButton">Users Section</a>
+        <a href="#" id="groupsSectionButton">Groups Section</a>
+       </div>
+    </div>
+    
+    <div class="container">
+        <div class="main-body">
+        
+                <div class="col-md-8">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">NOME</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" contenteditable="true" aria-placeholder="nome" style="border: none; outline: none" id="nameInput"></div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">COGNOME</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" contenteditable="true" aria-placeholder="Cognome" style="border: none; outline: none" id="surnameInput"></div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">EMAIL</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" contenteditable="true" aria-placeholder="Email" style="border: none; outline: none" id="emailInput"></div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">TELEFONO</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" contenteditable="true" aria-placeholder="Telefono" style="border: none; outline: none" id="telephoneInput"></div>
+                      </div>
+                      <hr>
+                      <div style="display: flex; align-items: center; justify-content: center;"> <!--button id="saveBtn" >SALVA </button--> </a>
+                        <a href="#" class="table-link" id="bottonSave">
+                          SALVA
+                          <!--img src="./assets/images/floppy-disk.png"-->
+                        </a>
+                        </div>
+                    </div>
+                  </div>
+    
+            </div>
+        </div>
+    
+
+        <script src="newUser.js"></script>
+
+</body>
+</html>

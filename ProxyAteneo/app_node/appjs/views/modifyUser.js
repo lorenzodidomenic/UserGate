@@ -2,13 +2,34 @@ window.onload = ()=>{
 
 
     entries = document.getElementsByClassName("entrySpanInfo")
-    saveButton = document.getElementById("saveBtn")
+    saveButton = document.getElementById("bottonSave")
     /* lista dei bottoni che servono per rimuovere da member of*/
     deleteMemberOfBtnList = document.getElementsByClassName("deleteMemberOfBtn")
     cn = undefined;
+    buttonAddGroup = document.getElementById("addGroupButton")
+    selectGroups = document.getElementById("standard-select")
+    backButton = document.getElementById("backButton")
+
+    logoutButton = document.getElementById("logoutButton")
+    openMenu = document.getElementById("openMenu")
+    closeMenu = document.getElementById("closeMenu")
+    homeButton = document.getElementById("homeButton")
+    usersSectionButton = document.getElementById("usersSectionButton")
+    groupsSectionButton = document.getElementById("groupsSectionButton")
+    menu = document.getElementById("menu");
+
+    function closemenu(){
+      menu.style.top = "-100vh"
+  }
+
+  function openmenu(){
+      menu.style.top = "17%"
+  }
+
+
 
     for(entry of entries){
-        if(entry.getAttribute("id") == "cn")
+        if(entry.getAttribute("id") == "cn")   //tra tutte le entries prendo quella che settato id il cn e ad esso setto il cn
             this.cn = entry.innerHTML
     }
 
@@ -17,8 +38,9 @@ window.onload = ()=>{
         modifiedAttributes = []
 
         for(entry of entries){
+
             if(entry.getAttribute("id") == "cn")
-                this.cn = entry.getAttribute("id")
+                this.cn = entry.innerHTML
 
 
             if(entry.getAttribute("id")!= "MEMBEROFGROUP") //perche member of li rimuovo con rimuovi
@@ -28,9 +50,6 @@ window.onload = ()=>{
         }
 
         
-
-        console.log(modifiedAttributes)
-
         response = await fetch('http://localhost:8083/modifyUserAttributes', {
               method: 'POST',
               headers: {
@@ -51,12 +70,9 @@ window.onload = ()=>{
 
 
     for(btn of deleteMemberOfBtnList){
-        console.log(btn)
+        
         btn.addEventListener("click",async ()=>{
-            console.log("Ho premuto uno dei bottoni rimuovi")
-            console.log(this.event.target.getAttribute("cn"))
             
-
             //qui devo fare richiesta quello che modifica member e memberof
 
             //richiesta di tipo post
@@ -64,8 +80,8 @@ window.onload = ()=>{
             info = []
 
             // credentials.push('{ "cf": "'+this.codiceFiscaleInput.value+'"} ')
-             info.push('{ "cnGroup": "'+ this.event.target.getAttribute("cn")+ '"} ')
-             info.push('{ "cnMember": "'+ this.cn+ '"} ')
+             info.push('{ "cnGroup":"'+ this.event.target.getAttribute("cn")+'"} ')
+             info.push('{ "cnMember":"'+ this.cn.replace(/\s/g, '')+ '"} ')
          
              response = await fetch('http://localhost:8083/modifyMembership', {
                  method: 'POST',
@@ -77,17 +93,77 @@ window.onload = ()=>{
                });
 
                const content = await response.text();
-               //console.log(content)
+              
      
      
                //lo potrei fare con una nuova richiesta get dove mando il mio cn
               if(content=="Ok"){
-                 alert("Salvataggio Gruppo Riuscito")
+                 alert("Rimozione dal gruppo "+this.event.target.getAttribute("cn")+"riuscita")
                }else{
                 this.loginError.style.display = "block"
                }
            })
         }
-    }
+
+        this.buttonAddGroup.addEventListener("click",async ()=>{
+
+            info = []
+    
+            info.push('{ "cnGroup": "'+ this.selectGroups.value + '"} ')
+            info.push('{ "cnMember": "'+this.cn + '"} ')
+        
+            response = await fetch('http://localhost:8083/addMember', {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(info)
+              });
+    
+              const content = await response.text();
+    
+              if(content=="Ok"){
+                alert("Aggiunta al gruppo"+this.event.target.getAttribute("cn")+"riuscita")
+              }else{
+               this.loginError.style.display = "block"
+              }
+    })
+
+
+    this.backButton.addEventListener("click", async ()=>{
+      //location.href= "http://localhost:8083/userSection"
+      history.back();
+   })
+
+
+   this.openMenu.addEventListener("click",()=>{
+    openmenu()
+}
+)
+
+this.closeMenu.addEventListener("click",()=>{
+closemenu()
+}
+)
+
+this.homeButton.addEventListener("click",()=>{
+    location.href = "http://localhost:8083/intro"
+})
+
+this.usersSectionButton.addEventListener("click",()=>{
+    location.href = "http://localhost:8083/userSection"
+})
+
+this.groupsSectionButton.addEventListener("click",()=>{
+    location.href = "http://localhost:8083/groupSection"
+})
+
+
+
+
+  }
        
   
+
+

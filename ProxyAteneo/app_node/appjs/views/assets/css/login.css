@@ -1,21 +1,55 @@
+*{
+  box-sizing: border-box;
+}
+
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+.row::after{
+  content:"";
+  clear: both;
+  display: block;
+}
+
+/* se lo schermo è minore di 768px qualsiasi colonna è 100%*/
+@media only screen and (max-width: 768px){
+  [class*=col-]{
+    width: 100%;
+  }
+}
 
 .login-page {
-  width: 360px;
+  /*width: 360px;*/
   padding: 8% 0 0;
   margin: auto;
+  border-radius: 10%;
 }
 .form {
   position: relative;
   z-index: 1;
   background: #FFFFFF;
-  max-width: 360px;
+ /* max-width: 360px;*/
   margin: 0 auto 100px;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  width: 30vw;
+  height: 40vh;
+  border-radius: 10%;
 }
 .form input {
-  font-family: "Roboto", sans-serif;
+  font-family:  sans-serif,"Roboto",;
   outline: 0;
   background: #f2f2f2;
   width: 100%;
@@ -29,7 +63,7 @@
   /*font-family: "Roboto", sans-serif;*/
   text-transform: uppercase;
   outline: 0;
-  background: black;
+  /*background: black;*/
   width: 100%;
   border: 0;
   padding: 15px;
@@ -38,10 +72,15 @@
   /*-webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;*/
   cursor: pointer;
+  background-color: #01579B !important
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: black
+  background: rgb(48, 48, 48);
+  box-shadow: 0px 0px 2px 2px rgb(0,0,0);
+  transition: 0.4s;  /* velocità con la quale cambia una prorietà css*/
 }
+
+/*
 .form .message {
   margin: 15px 0 0;
   color: #b3b3b3;
@@ -86,10 +125,11 @@
 }
 .container .info span .fa {
   color: #EF3B3A;
-}
+}*/
 body {
   background: grey;; /* fallback for old browsers */
-  background-color: grey;
+  /*background-color: grey;*/
+  background-color: #0078bd;
   /*background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);*/
   /*font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;

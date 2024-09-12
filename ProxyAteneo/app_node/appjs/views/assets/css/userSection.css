@@ -1,14 +1,18 @@
-*{
-    box-sizing: border-box;
-  }
-  
-  body{
+body{
     background: grey;; /* fallback for old browsers */
    /* background-color: grey;*/
    /* font-family: Verdana, sans-serif;*/
    background-color: #0078bd;
    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+
+
+*{
+    box-sizing: border-box;
+  }
+
+  
   .col-1 {width: 8.33%;}
   .col-2 {width: 16.66%;}
   .col-3 {width: 25%;}
@@ -36,36 +40,40 @@
   }
 
   
-
-
 #intro{
     text-align: center;;
 }
 
-
-a{
-    text-decoration: none;
-}
 #intro h1{
-    color: white;
+    color:  white;
     font-size: 3em;
+   /* font-family: "Titillium Web", sans-serif;*/
     text-transform: uppercase;
 }
 
 #searchContainer{
    text-align: center;
+  
+}
+
+#section{
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
 }
 
 #queryInput{
-    width: 30vw;
+     width: 30vw;
      height: 7vh;
+     border-radius: 3%;
      border: none;
      outline: none;
-     border-radius: 3%;
      font-weight: bold;
      font-size: 18px;
      background: #f2f2f2;
      padding: 4px;
+    /* font-family: "Titillium Web", sans-serif;*/
 }
 
 #queryInput:hover{
@@ -73,13 +81,14 @@ a{
     transition: 0.4s;
 }
 
+
+
 .button{
     background-color: rgb(0, 0, 0);
     height: 7vh;
     border-radius: 5%;
     color: white;
     cursor: pointer;
-
 }
 
 .button:hover{
@@ -87,10 +96,9 @@ a{
     transition: 0.4s;
 }
 
-
 #buttonSearch{
-   /* background-color: grey;*/
-   background-color:  #0078bd;;
+    /*background-color:grey*/
+    background-color: #0078bd;;
     height: 7vh;
     border-radius: 5%;
     border: none;
@@ -105,13 +113,12 @@ a{
     transition: 0.4s;
 }
 
-
 .entryRow{
     border: 1px solid rgb(247, 246, 246);;
     color: white;
     border-radius: 5%;
     margin: 20px;
-    background-color: rgb(182, 16, 16);
+    background-color: black;
     padding: 5px;
     font-weight: bold;
     font-size: 3vh;
@@ -120,10 +127,42 @@ a{
 }
 
 .entryRow:hover{
-    background-color: rgb(91, 28, 12);
+    background-color: rgb(102, 97, 82);
     cursor: pointer;
     box-shadow: 4px 4px 4px 4px rgb(41, 38, 26);
     transition: 0.4s;
+}
+
+.entryRowNoResult{
+    border: 1px solid rgb(247, 246, 246);;
+    color: white;
+    border-radius: 5%;
+    margin: 20px;
+    background-color: rgb(224, 15, 15);
+    padding: 5px;
+    font-weight: bold;
+    font-size: 3vh;
+    text-align: center;
+    cursor: pointer;
+}
+
+.entryRowNoResult:hover{
+    background-color: rgb(118, 12, 12);
+    cursor: pointer;
+    box-shadow: 4px 4px 4px 4px rgb(41, 38, 26);
+    transition: 0.4s;
+}
+
+
+.entryRowHidden{
+    border: 1px solid rgb(247, 246, 246);;
+    color: white;
+    border-radius: 5%;
+    margin: 20px;
+    background-color: black;
+    padding: 5px;
+    font-weight: bold;
+    display: none
 }
 
 #filterContainer{
@@ -133,18 +172,19 @@ a{
 }
 
 #filterContainer #row{
-    margin: 8px;
+    margin: 6px;
 }
 #filterContainer #row span{
     display: inline-block;
     width: 30%;
-    height: 5vh;
+    height: 6vh;
     border: 5%;
     outline: none;
     text-align: center;
     font-weight: bold;
     text-transform: uppercase;
-    /*font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  /*  font-family: "Titillium Web", sans-serif;*/
+    
 }
 
 #filterContainer #row input{
@@ -156,7 +196,7 @@ a{
     font-weight: bold;
     background: #f2f2f2;
     padding: 4px;
-    /*font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+ /*  font-family: "Titillium Web", sans-serif;*/
     
 }
 
@@ -165,7 +205,7 @@ a{
     transition: 0.4s;
 }
 /*
-#containerGroupInfo{
+#containerUserInfo{
     display: none;
     border: 1px solid rgba(247, 246, 246, 0.253);;
     color: white;
@@ -175,32 +215,17 @@ a{
     padding: 5px;
     overflow: hidden;
 }
-*/
-
 
 #containerUserInfo .entryRow div{
     text-align: start;
 }
-
+*/
 .rowAdd{
     text-align: center;
 }
 
-#addMember{
-    text-align: center;
-    display: none;
-}
-
-#inputNameGroup{
-    display: inline-block;
-    width: 20%;
-    height: 5vh;
-    border: 5%;
-    outline: none;
-}
-
-#filterButton,#filterClearButton,#addGroup,#buttonSaveGroup,#addUser{
-    /*
+/*
+#filterButton,#filterClearButton{
     background-color: rgb(0, 0, 0);
     height: 7vh;
     border-radius: 5%;
@@ -208,78 +233,40 @@ a{
     cursor: pointer;
     border: none;
     outline: none;
-    margin: 4px;*/
-    color: hsl(210, 14%, 97%);
-    background-color:  #154e7f;
-    text-decoration: none;
-    /*
-    width: 4em;
-    height: 2em;*/
-    width: fit-content;
-    height: fit-content;
-    
-    line-height: 2em;
-    vertical-align: middle;
-    font: normal normal normal 14px / 1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translate(0, 0);
-    border-radius: 10%;
-    padding: 0.5em;
-    font-weight: bold;
-    margin: 2vh;
-    font-size: 16px;;
-}
-
-#addGroup,#buttonSaveGroup,#addUser,#buttonBack,#buttonSaveUser,#btnAddMember,#btnDeleteGroup{
-    /*
-    background-color: rgb(72, 69, 64);
-    height: 7vh;
-    border-radius: 5%;
-    color: white;
-    cursor: pointer;
-    border: none;
-    outline: none;
     margin: 4px;
-    margin-top: 6px;*/
-    color: hsl(210, 14%, 97%);
-    background-color:  hsl(153, 66%, 44%);
-    text-decoration: none;
-    /*
-    width: 4em;
-    height: 2em;*/
-    width: fit-content;
-    height: fit-content;
-    
-    line-height: 2em;
-    vertical-align: middle;
-    font: normal normal normal 14px / 1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translate(0, 0);
-    border-radius: 10%;
-    padding: 0.5em;
-    font-weight: bold;
-    margin: 2vh;
-    font-size: 16px;;
-    border: none;
-    outline: none;
-}
+}*/
 
-#filterButton:hover,#filterClearButton:hover,#addGroup:hover,#buttonSaveGroup:hover,#addUser:hover,#buttonBack:hover,#buttonSaveUser:hover,#btnAddMember:hover{
+#filterButton:hover,#filterClearButton:hover{
     box-shadow: 4px 4px 4px 4px rgb(41, 38, 26);
     transition: 0.4s;
 }
 
-.card:hover{
+#modifyBtn{
+    height: 7vh;
+    width: 4vw;
+    border-radius: 5%;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    background-color: rgba(128, 128, 128, 0);
+}
+
+#modifyBtn:hover,#addGroupBtn:hover{
     box-shadow: 4px 4px 4px 4px rgb(41, 38, 26);
-    transition: 0.1s;
-    border: 3px solid  rgb(107, 181, 42);
-    outline: 3px solid  rgb(107, 181, 42);
+    transition: 0.4s;
+}
+
+#addGroupBtn{
+    background-color: rgb(0, 0, 0);
+    height: 7vh;
+    border-radius: 5%;
+    color: white;
+    cursor: pointer;
+}
+
+.entryRow[local]{
+    background-color: rgb(111, 24, 24);
 }
 
 .menu-icon{
@@ -299,7 +286,6 @@ a{
     left: 10%;
     padding: 50px 100px;
     transition: top 1s;
-    z-index: 10;
 
 }
 
@@ -311,10 +297,18 @@ a{
     align-items: center; 
 }
 
-.right-links img{
+.right-links img,.right-links-user-info img{
     width: 35px;
     margin-left: 20px;
     cursor: pointer;
+}
+
+.right-links-user-info{
+    position: relative;
+    top: 10px;
+    left: 90%;
+    display: flex;
+    align-items: center; 
 }
 
 .right-links a{
@@ -342,31 +336,9 @@ a{
     top: -100vh;
 }
 
-#Input{
-    width: 30vw;
-    height: 7vh;
-    border-radius: 3%;
-    border: none;
-    outline: none;
-    font-weight: bold;
-    font-size: 20px;
-    background: #f2f2f2;
-    padding: 4px;
-    font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
 
-#inputNameGroup,#inputNameUser,#inputSurnameUser,#inputTelephoneUser{
-    width: 10vw;
-    height: 5vh;
-    border-radius: 3%;
-    border: none;
-    outline: none;
-    font-weight: bold;
-    font-size: 20px;
-    background: #f2f2f2;
-    padding: 4px;
-    font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
+body{margin-top:20px;}
+
 
 /* USER LIST TABLE */
 .user-list tbody td > img {
@@ -391,6 +363,7 @@ a{
     border-collapse: separate;
     width: 100%;
     background-color: #f5f5f5;
+    margin-top: 4vh;
 }
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
@@ -556,6 +529,8 @@ a{
 /* parte utente info*/
 .main-body {
     padding: 15px;
+    margin: 5%;
+   /* font-family: FontAwesome;*/
 }
 .card {
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
@@ -571,6 +546,14 @@ a{
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
+    margin: 5%;
+}
+
+.card:hover{
+    box-shadow: 4px 4px 4px 4px rgb(41, 38, 26);
+    transition: 0.4s;
+    border: 3px solid  rgb(107, 181, 42);
+    outline: 3px solid  rgb(107, 181, 42);
 }
 
 .card-body {
@@ -608,7 +591,59 @@ a{
     box-shadow: none!important;
 }
 
-a{
-    color: #337ab7;
+
+a[filter]{
+    color: hsl(210, 14%, 97%);
+    background-color:  #154e7f;
     text-decoration: none;
+    /*
+    width: 4em;
+    height: 2em;*/
+    width: fit-content;
+    height: 3vh;
+    
+    line-height: 2em;
+    vertical-align: middle;
+    font: normal normal normal 14px / 1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    border-radius: 10%;
+    padding: 0.7em;
+    font-weight: bold;
+    margin-top: 1em;
+    margin: 2em;
+    margin-bottom: 10px;
+    font-size: 18px;;
+}
+
+/*
+#backButton{
+    color: hsl(210, 14%, 97%);
+    background-color:  #337ab7;
+    text-decoration: none;
+    /*
+    width: 4em;
+    height: 2em;*/
+    /*width: fit-content;
+    height: 3vh;
+    
+    line-height: 2em;
+    vertical-align: middle;
+    font: normal normal normal 14px / 1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    border-radius: 10%;
+    padding: 0.5em;
+    font-weight: bold;
+    font-size: 16px;;
+}*/
+
+[local]{
+   background-color: #ad4031;
 }

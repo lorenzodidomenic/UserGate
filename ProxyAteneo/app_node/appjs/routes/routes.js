@@ -14,7 +14,10 @@ const  { modifyUserView,
          saveGroupView,
          addMemberView,
          modifyMembershipView,
-         saveUserView} = require('../controllers/controller');  //prendo la view dal controller
+         saveUserView,
+         newUserView,
+         newGroupView,
+         deleteGroupView} = require('../controllers/controller');  //prendo la view dal controller
 const ldap = require("ldapjs")
 const bodyParser  = require('body-parser');
 //const cookieParser = require('cookie-parser');
@@ -22,10 +25,13 @@ const session = require('express-session');
 
 
 // Use sessions in the app
+
 router.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: true,
+    name: "LdapCookie",
+    secret : '1234567890abcdefghijklmnopqrstuvwxyz',
+	resave : false,
+	saveUninitialized : true,
+	cookie : { secure : false }
 }));
 
 router.use(express.json())
@@ -39,53 +45,17 @@ router.get("/intro",introView)
 router.get("/userSection",userSectionView)
 router.get("/groupSection",groupSectionView)
 router.post("/addMember",addMemberView);
+router.get("/newUser",newUserView)
 router.post("/saveUser",saveUserView)
-
-//QUESTE VARIABILI D'AMBIENTE
-const serverUrl = 'ldap://10.0.200.20:389';   //indirizzo ip del container col server ldap
-
-/*
-const bindDN = 'cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad';  //credenziali di autenticazione (potrei mettere admin)
-const bindPassword = 'Palazzolo3';  //èpassword autenticazione
-*/
-
-response_message = ""
-
-class User{
-    sn;
-    givenName;
-    cn;
-
-    constructor(sn,givenName,cn){
-        this.sn = sn;
-        this.givenName = givenName;
-        this.cn = cn;
-    }
-}
-
-class Attribute{
-    type;
-    value;
-
-    constructor(type,value){
-        this.type = type;
-        this.value = value;
-    }
-}
-
+router.get("/newGroup",newGroupView)
 router.get("/search", searchView);
-    
 router.get("/searchUser", userInfoView)
-
 router.post("/modifyUserAttributes",modifyUserInfoView);
-
 router.get("/searchGroups", searchGroupsView);
-
 router.get("/searchGroup", groupInfoView)
-
 router.post("/saveGroup",saveGroupView)
-
 router.post("/modifyMembership",modifyMembershipView)
+router.post("/deleteGroup",deleteGroupView)
    
 
 module.exports = router;

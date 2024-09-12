@@ -1,6 +1,6 @@
 FROM debian:10-slim 
 
-#core utils mi serve per poter usare touch
+
 RUN apt update 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y slapd ldap-utils 
 RUN apt-get install nano
@@ -14,12 +14,12 @@ RUN chmod 700 /var/lib/ldap
 RUN cd /etc/ldap && chmod 777 -Rf slapd.d
 
 ENV PATH $PATH:/etc/ldap
-ENV SUFFIX "dc=local,dc=unict,dc=ad"
-ENV ROOT_DN "cn=admin,dc=local,dc=unict,dc=ad"
+ENV ROOT_DN_CONFIG "cn=admin,cn=config"
 ENV ROOT_PW "palazzolo"
-ENV SUFFIX_2 "ou=Studenti,dc=unict,dc=ad"
-ENV ROOT_DN2 "cn=admin,ou=Studenti,dc=unict,dc=ad"
 ENV LOCAL_ATTRIBUTES "member,memberOf,objectClass"
+ENV REMOTE_ATTRIBUTES "member,memberOf"
+ENV BIND_DN "cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad"
+ENV BIND_PW "Palazzolo3"
 ENV URI "ldap://151.97.242.92"
 
 
