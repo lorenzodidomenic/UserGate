@@ -8,12 +8,8 @@ window.onload = ()=>{
     loginError = document.getElementById("LoginError")
 
 
-    console.log(this.loginButton)
     this.loginButton.addEventListener("click", async ()=>{
        
-      
-     
-
         credentials = [];
         credentials.push('{ "cf": "'+this.codiceFiscaleInput.value+'"} ')
         credentials.push('{ "password": "'+this.passwordInput.value+'"} ')
@@ -31,13 +27,7 @@ window.onload = ()=>{
         
           const content = await response.text();
      
-          console.log(response)
-          console.log(response.headers)
-          console.log(document.cookie)
-          
-          //lo potrei fare con una nuova richiesta get dove mando il mio cn
          if(content=="login Ok"){
-          console.log("aaaa")
           location.href = "http://localhost:8083/intro"
           }else{
            this.loginError.style.display = "block"

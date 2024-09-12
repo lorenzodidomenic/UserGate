@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy</title>
-    <link rel="stylesheet" href="./assets/css/styleIndex.css">
+    <title>TraslucentAdmin</title>
+    <link rel="stylesheet" href="./assets/css/userSection.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="icon" href="./assets/images/letter-t.png" type="image/x-icon"/>
 </head>
 <body>
     
+    <img src="./assets/images/menu.png" class="menu-icon" id="openMenu">
+    <div class="menu-box" id="menu">
+       <div class="right-links">
+           <a href="#" id="logoutButton">LOGOUT</a>
+           <img src="./assets/images/close.png" id="closeMenu">
+       </div>
+
+       <div class="menu-links">
+        <a href="#" id="homeButton">Home</a>
+        <a href="#" id="usersSectionButton">Users Section</a>
+        <a href="#" id="groupsSectionButton">Groups Section</a>
+       </div>
+    </div>
+
 
     <div id="intro">
         <h1> User Managment </h1>
@@ -16,7 +32,10 @@
 
 
     <div id="searchContainer">
-        <input type="text" id="queryInput" placheholder="Inserisci Filtro"> <button class="button">CERCA</button>
+        <div id="section">
+            <!-- background: url('./assets/images/search.png') center; background-size: cover;width: 40px;border: none; outline: none;top: 5px;margin-left: 4px;-->
+        <input type="text" id="queryInput" placheholder="Inserisci Filtro"> <button id="buttonSearch"><img src="./assets/images/search.png"></button>
+       </div>
 
         <div id="filterContainer">
             <div id="row"><span> Base </span> <input type="text" id="filterBase" placeholder="Base ricerca" value="dc=unict,dc=ad"> <br> </div>
@@ -24,17 +43,71 @@
             <div id="row"> <span> Cognome </span> <input type="text" id="filterSurname" placeholder="Cognome utente"> <br> </div>
             <div id="row"> <span> Codice Fiscale </span> <input type="text" id="filtercf" placeholder="Codice Fiscale utente"> <br> </div>
             <div id="row"> <span> Gruppo d'appartenenza </span> <input type="text" id="filterGroup" placeholder="Gruppo utente"> <br> </div>
-            <button id="filterButton">Crea Filtro</button>
-            <button id="filterClearButton">Pulisci Filtro</button>
+            <!--button id="filterButton">Crea Filtro</button>
+            <button id="filterClearButton">Pulisci Filtro</button-->
+            <a href="#" class="table-link editButton" id="filterButton" filter>
+                Crea filtro 
+               <!--img src="./assets/images/floppy-disk.png"-->
+             </a>
+             <a href="#" class="table-link editButton" id="filterClearButton" filter>
+                Pulisci filtro
+               <!--img src="./assets/images/floppy-disk.png"-->
+             </a>
         </div>
     </div>
 
-    <div id="container">
+    <div id="container">   <!-- mi server nel caso di non reuslt-->
     </div>
 
-    <div id="containerUserInfo">
+   
+    <!--link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"-->
 
+     <!--parte nuova -->
+<div class="container" id="container-users">
+<div class="row">
+	<div class="col-lg-12">
+
+		<div class="main-box clearfix">
+			<div class="table-responsive">
+				<table class="table user-list">
+					<thead>
+						<tr>
+							<th><span><b>Utente</b></span></th>
+							<th><span><b>Codice Fiscale</b></span></th>
+							<th><span><b>Email</b></span></th>
+							<th><span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span></th>
+						</tr>
+					</thead>
+					<tbody id="bodyTable">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!--parte nuova -->
+
+<!-- parte nuova user info-->
+<div class="container">
+    <div class="main-body" >
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body" id="containerUserInfo" style="display: none">
+                </div>
+              </div>
+            </div>
     </div>
+</div>
+
+
+
+<!-- parte nuova user info-->
+    <!--div id="containerUserInfo">
+        <div class="right-links-user-info" id="right-links-user-info">
+            <img src="./assets/images/remove.png" id="closeUserInfo" >
+        </div>
+    </div-->
  
     <script src="userSection.js"></script>
 </body>
