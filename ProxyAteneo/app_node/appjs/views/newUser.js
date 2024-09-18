@@ -76,4 +76,27 @@ window.onload = ()=>{
     this.groupsSectionButton.addEventListener("click",()=>{
       location.href = "http://localhost:8083/groupSection"
     })
+
+    this.logoutButton.addEventListener("click", async ()=>{
+
+      //mando richiesta di logout con le mie credenziali
+      response = await fetch('http://localhost:8083/logout', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            withCredentials: true
+          },
+          body: ""
+        });
+
+      
+        const content = await response.text();
+   
+       if(content=="logout Ok"){
+        location.href = "http://localhost:8083/"
+        }else{
+         alert("Logout non riuscito")
+        }
+  })
 }

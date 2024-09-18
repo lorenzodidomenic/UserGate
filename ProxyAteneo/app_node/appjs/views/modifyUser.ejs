@@ -11,8 +11,9 @@
 <body>
 
   <div style="display: inline-flex; width: 100%; align-items: center; justify-content: center;">
-  <img src="./assets/images/menu.png" class="menu-icon" id="openMenu">
-  <div class="menu-box" id="menu">
+    <img src="./assets/images/menu.png" class="menu-icon" id="openMenu">
+
+     <div class="menu-box" id="menu">
      <div class="right-links">
          <a href="#" id="logoutButton">LOGOUT</a>
          <img src="./assets/images/close.png" id="closeMenu">
@@ -23,6 +24,7 @@
       <a href="#" id="usersSectionButton">Users Section</a>
       <a href="#" id="groupsSectionButton">Groups Section</a>
      </div>
+
   </div>
   </div>
 
@@ -71,21 +73,17 @@
                                       <h6 class="mb-0" style="font-size: 29px;text-transform: uppercase;margin-bottom: 3px;"><%=entries[i].type%></h6>
                                     </div>
                                     <% if(entries[i].value[j].includes("Gruppi Locali")){%>
-                                    <div class="col-sm-9 text-secondary entrySpanInfo" style="margin-top: 1rem; display: inline">
-                                        <%=entries[i].value[j]%> 
-                                    </div>
-                                    <button class="deleteMemberOfBtnForStyle"  cn="<%=entries[i].value[j]%>"> <img src="./assets/images/delete.png" class="deleteMemberOfBtn" cn="<%=entries[i].value[j] %>"> </button>
+                                    <div class="col-sm-9 text-secondary entrySpanInfo" id="<%=entries[i].type%>" style="margin-top: 1rem; display: inline"><%=entries[i].value[j]%></div>
+                                    <button class="deleteMemberOfBtnForStyle"  cn="<%=entries[i].value[j]%>"> <img src="./assets/images/delete.png" class="deleteMemberOfBtn" cn="<%=entries[i].value[j] %>" style="cursor: pointer"> </button>
                                   </div>
                                   <%}else{%>
-                                    <div class="col-sm-9 text-secondary entrySpanInfo" style="margin-top: 1rem; display: inline">
-                                      <%=entries[i].value[j]%> 
-                                  </div>
+                                    <div class="col-sm-9 text-secondary entrySpanInfo" id="<%=entries[i].type%>" style="margin-top: 1rem; display: inline"><%=entries[i].value[j]%></div>
                                 </div>
                                     <% } %>
                                   <hr></hr>
                            <% }} else {%>
                             <%if(entries[i].local != true){%>
-                               <div class="row">
+                                  <div class="row">
                                     <div class="col-sm-3">
                                       <h6 class="mb-0" style="font-size: 29px;text-transform: uppercase;"><%=entries[i].type%></h6>
                                     </div>
@@ -97,7 +95,7 @@
                             <div class="col-sm-3">
                               <h6 class="mb-0" style="font-size: 29px;text-transform: uppercase;"><%=entries[i].type%></h6>
                             </div>
-                            <div class="col-sm-9 text-secondary entrySpanInfo" contenteditable="true" id="<%=entries[i].type%>" style="margin-top: 1rem; outline: none; border: none"><%=entries[i].value%> </div>
+                            <div class="col-sm-9 text-secondary entrySpanInfo" contenteditable="true" id="<%=entries[i].type%>" style="margin-top: 1rem; outline: none; border: none"><%=entries[i].value%></div>
                           </div>
                           <hr></hr>
                         <%}}}} %>

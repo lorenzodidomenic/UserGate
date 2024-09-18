@@ -17,7 +17,8 @@ const  { modifyUserView,
          saveUserView,
          newUserView,
          newGroupView,
-         deleteGroupView} = require('../controllers/controller');  //prendo la view dal controller
+         deleteGroupView,
+         logoutView} = require('../controllers/controller');  //prendo la view dal controller
 const ldap = require("ldapjs")
 const bodyParser  = require('body-parser');
 //const cookieParser = require('cookie-parser');
@@ -56,6 +57,7 @@ router.get("/searchGroup", groupInfoView)
 router.post("/saveGroup",saveGroupView)
 router.post("/modifyMembership",modifyMembershipView)
 router.post("/deleteGroup",deleteGroupView)
+router.post("/logout",logoutView)
    
 
 module.exports = router;

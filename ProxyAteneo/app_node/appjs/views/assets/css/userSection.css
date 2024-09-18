@@ -200,6 +200,20 @@ body{
     
 }
 
+#filterContainer #row input[group]{
+    display: inline-block;
+    width: 30%;
+    height: 6vh;
+    border: 5%;
+    outline: none;
+    font-weight: bold;
+    background: #f2f2f2;
+    padding: 4px;
+ /*  font-family: "Titillium Web", sans-serif;*/
+    
+}
+
+
 #filterContainer #row input:hover,#filterContainer #row input:focus,#filterContainer #row input:active{
     box-shadow: 4px 4px 4px 4px rgb(41, 38, 26);
     transition: 0.4s;
@@ -647,3 +661,29 @@ a[filter]{
 [local]{
    background-color: #ad4031;
 }
+
+select {
+
+    appearance: none;
+    border: none;
+    padding: 0 1em 0 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    margin-top: 5px;
+    background: #f2f2f2;
+    background-color:  #f2f2f2;;
+  }
+
+select::after {
+    content: "";
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--select-arrow);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+    justify-self: end;
+}
+
+

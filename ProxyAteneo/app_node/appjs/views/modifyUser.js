@@ -9,7 +9,6 @@ window.onload = ()=>{
     buttonAddGroup = document.getElementById("addGroupButton")
     selectGroups = document.getElementById("standard-select")
     backButton = document.getElementById("backButton")
-
     logoutButton = document.getElementById("logoutButton")
     openMenu = document.getElementById("openMenu")
     closeMenu = document.getElementById("closeMenu")
@@ -81,8 +80,9 @@ window.onload = ()=>{
 
             // credentials.push('{ "cf": "'+this.codiceFiscaleInput.value+'"} ')
              info.push('{ "cnGroup":"'+ this.event.target.getAttribute("cn")+'"} ')
-             info.push('{ "cnMember":"'+ this.cn.replace(/\s/g, '')+ '"} ')
-         
+            // info.push('{ "cnMember":"'+ this.cn.replace(/\s/g, '')+ '"} ')
+            info.push('{ "cnMember":"'+ this.cn+ '"} ')
+
              response = await fetch('http://localhost:8083/modifyMembership', {
                  method: 'POST',
                  headers: {
@@ -98,7 +98,7 @@ window.onload = ()=>{
      
                //lo potrei fare con una nuova richiesta get dove mando il mio cn
               if(content=="Ok"){
-                 alert("Rimozione dal gruppo "+this.event.target.getAttribute("cn")+"riuscita")
+                 alert("Rimozione dal gruppo riuscita")
                }else{
                 this.loginError.style.display = "block"
                }
@@ -124,7 +124,7 @@ window.onload = ()=>{
               const content = await response.text();
     
               if(content=="Ok"){
-                alert("Aggiunta al gruppo"+this.event.target.getAttribute("cn")+"riuscita")
+                alert("Aggiunta al gruppo riuscita")
               }else{
                this.loginError.style.display = "block"
               }
@@ -133,7 +133,8 @@ window.onload = ()=>{
 
     this.backButton.addEventListener("click", async ()=>{
       //location.href= "http://localhost:8083/userSection"
-      history.back();
+      //history.back();
+      history.go(-2)
    })
 
 
@@ -159,7 +160,28 @@ this.groupsSectionButton.addEventListener("click",()=>{
     location.href = "http://localhost:8083/groupSection"
 })
 
+this.logoutButton.addEventListener("click", async ()=>{
 
+  //mando richiesta di logout con le mie credenziali
+  response = await fetch('http://localhost:8083/logout', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        withCredentials: true
+      },
+      body: ""
+    });
+
+  
+    const content = await response.text();
+
+   if(content=="logout Ok"){
+    location.href = "http://localhost:8083/"
+    }else{
+     alert("Logout non riuscito")
+    }
+})
 
 
   }

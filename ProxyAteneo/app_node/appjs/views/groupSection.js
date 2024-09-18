@@ -45,6 +45,7 @@ window.onload = ()=>{
 
                 //this.container.innerHTML = ""
 
+                
                
                 if(response.length == 0){
                 mex = document.createElement("div")
@@ -113,6 +114,7 @@ window.onload = ()=>{
               if(response_mex[i].type == "cn")
                   mex.setAttribute("id",response_mex[i].value)
 
+
               if(response_mex[i].type == "member"){
                 //mex.innerHTML = mex.innerHTML + "<br>"
                 for(let j = 0; j< response_mex[i].value.length; j++){
@@ -123,7 +125,8 @@ window.onload = ()=>{
                     <h6 class="mb-0" style="font-size: 29px;text-transform: uppercase;margin-bottom: 3px;">'+response_mex[i].type+'</h6>\
                   </div>\
                   <div class="col-sm-9 text-secondary">\
-                   ' + response_mex[i].value[j]+' \
+                   ' + response_mex[i].value[j]+'  \
+                  <button class="deleteMemberOfBtnForStyle" style="border: none; background-color: white; cursor: pointer"> <img src="./assets/images/delete.png" class="deleteMemberOfBtn" cnMember="'+response_mex[i].value[j]+'"> </button>\
                   </div>\
                 </div>\
                 <hr></hr>'
@@ -157,7 +160,8 @@ window.onload = ()=>{
          mexButton.addEventListener("click", async ()=>{
           // await fetch("http://localhost:8083/modifyUser");
           this.containerGroupInfo.style.display = "none"
-          this.containerUsers.style.display = "block"
+          this.containerGroups.style.display = "block"
+         //history.back();
        })
          this.containerGroupInfo.appendChild(mexButton)
 
@@ -240,6 +244,50 @@ window.onload = ()=>{
          })
 
           this.containerGroupInfo.style.display = "block"
+            //prendo tutti i bottoni di tipo member of delete
+
+      deleteMemberOfBtnList = document.getElementsByClassName("deleteMemberOfBtn")
+
+      for(btn of deleteMemberOfBtnList){
+        console.log("aaa")
+        btn.addEventListener("click",async ()=>{
+            
+            //qui devo fare richiesta quello che modifica member e memberof
+
+            //richiesta di tipo post
+
+            info = []
+
+            cnMember = this.event.target.getAttribute("cnMember").split(",")[0]
+            cnMember = cnMember.split("=")[1]
+            
+            // credentials.push('{ "cf": "'+this.codiceFiscaleInput.value+'"} ')
+            // info.push('{ "cnGroup": "cn='+this.cn.replace(/\s/g, '')+',ou=Gruppi Locali,dc=unict,dc=ad"} ')
+            info.push('{ "cnGroup": "cn='+this.cn +',ou=Gruppi Locali,dc=unict,dc=ad"} ')
+             info.push('{ "cnMember":"'+cnMember+ '"} ')
+            
+         
+             response = await fetch('http://localhost:8083/modifyMembership', {
+                 method: 'POST',
+                 headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify(info)
+               });
+
+               const content = await response.text();
+              
+     
+               
+               //lo potrei fare con una nuova richiesta get dove mando il mio cn
+              if(content=="Ok"){
+                 alert("Rimozione dal gruppo riuscita")
+               }else{
+                this.loginError.style.display = "block"
+               }
+           })
+        }
 
       })
 
@@ -253,8 +301,7 @@ window.onload = ()=>{
         
                 }
             }
-    }
-)
+    })
 
 /* vado nella pagina di aggiunta dei gruppi */
 this.buttonAddGroup.addEventListener("click",()=>{
@@ -303,6 +350,28 @@ this.openMenu.addEventListener("click",()=>{
 
 this.closeMenu.addEventListener("click",()=>{
 closemenu()
-}
+})
 
-)
+
+this.logoutButton.addEventListener("click", async ()=>{
+
+  //mando richiesta di logout con le mie credenziali
+  response = await fetch('http://localhost:8083/logout', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        withCredentials: true
+      },
+      body: ""
+    });
+
+  
+    const content = await response.text();
+
+   if(content=="logout Ok"){
+    location.href = "http://localhost:8083/"
+    }else{
+     alert("Logout non riuscito")
+    }
+})

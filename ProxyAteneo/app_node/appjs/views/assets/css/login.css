@@ -44,8 +44,9 @@
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  width: 30vw;
-  height: 40vh;
+  /*width: 30vw;
+  height: 40vh;*/
+  min-height: fit-content;
   border-radius: 10%;
 }
 .form input {

@@ -20,7 +20,7 @@ window.onload= ()=>{
     menu = document.getElementById("menu");
     logoutButton = document.getElementById("logoutButton")
     containerUsers = document.getElementById("container-users")
-
+    groupType = document.getElementById("groupType")
 
 
     async function f(){
@@ -30,8 +30,26 @@ window.onload= ()=>{
         /*qui dovrei sostituire & se è presente con %26*/
         query = query.replace("&","%26")
         response = await fetch("http://localhost:8083/search?query="+query);
+
+        /*
+        testo = await response.text()
+        if(testo != null){
+          console.log(testo)
+          if(testo == "Ricerca troppo ampia")
+            alert("Ricerca troppo ampia. Restringi il filtro")
+          return undefined;
+        }else{*/
+        status = await response.status
+        console.log(status)
+
+        if(status == 402){
+          alert("Ricerca troppo ampia. Restringi il filtro")
+          return undefined;
+        }
+
         response_mex = await response.json()
         return response_mex;
+       // }
     }
 
     btn.addEventListener("click", async ()=>{
@@ -40,6 +58,8 @@ window.onload= ()=>{
 
                 //this.container.innerHTML = ""
 
+                if(response == undefined)
+                  return;
                 
                 if(response.length == 0){  //se non arriva nessun utente
                 mex = document.createElement("div")
@@ -274,13 +294,69 @@ this.filterButton.addEventListener("click",()=>{
 
     another = false;
 
-    nameText = this.filterName.value;
-    surnameText = this.filterSurname.value;
-    cfText = this.filterCf.value;
-    groupText = this.filterGroup.value;
+    nameText = this.filterName.value ?? undefined;
+    surnameText = this.filterSurname.value ?? undefined;
+    cfText = this.filterCf.value ?? undefined;
+    groupText = this.filterGroup.value ?? undefined;
 
     stringQuery = "";
     queryText = "";
+
+    if(nameText == "")
+      nameText = undefined;
+    if(surnameText == "")
+      surnameText = undefined
+    if(cfText == "")
+      cfText = undefined
+    if(groupText == "")
+      groupText = undefined
+
+    
+
+    counterUndefined = 0; 
+    if(nameText != undefined)
+      counterUndefined++;
+    if(surnameText != undefined)
+      counterUndefined++;
+    if(cfText != undefined)
+      counterUndefined ++
+    if(groupText != undefined)
+      counterUndefined++;
+    
+    if(counterUndefined == 1){
+      if(nameText != undefined)
+        stringQuery = "(givenName="+nameText+"*)"
+      else if(surnameText != undefined)
+        stringQuery = "(sn="+surnameText+"*)"
+      else if(cfText != undefined)
+        stringQuery = "(cn="+cfText+"*)"
+      else if(groupText != undefined){
+        if(this.groupType.value == "local")
+        stringQuery = "(memberOf=cn="+groupText+",ou=Gruppi Locali,dc=unict,dc=ad)"
+        else
+        stringQuery = "(memberOf=cn="+groupText+",ou=Gruppi Studenti,dc=unict,dc=ad)"
+      }
+    }else{
+        /* se è più di uno*/
+        stringQuery = "(&"
+        if(nameText != undefined)
+        stringQuery += "(givenName="+nameText+"*)"
+        if(surnameText != undefined)
+        stringQuery += "(sn="+surnameText+"*)"
+        if(cfText != undefined)
+        stringQuery += "(cn="+cfText+"*)"
+       if(groupText != undefined){
+        if(this.groupType.value == "local")
+        stringQuery += "(memberOf=cn="+groupText+",ou=Gruppi Locali,dc=unict,dc=ad)"
+        else
+        stringQuery += "(memberOf=cn="+groupText+",ou=Gruppi Studenti,dc=unict,dc=ad)"
+       }
+
+
+       stringQuery = stringQuery + ")"
+    }
+
+    /*
     if((nameText != null) && (nameText!="")){
         stringQuery = "(givenName="+nameText+"*)"
         another = true;
@@ -312,13 +388,14 @@ this.filterButton.addEventListener("click",()=>{
             stringQuery = "memberOf=cn="+groupText+",ou=Gruppi Locali,dc=unict,dc=ad"
         }
     }
-
+*/
     this.queryInput.value = stringQuery
 
     this.filterName.value = ""
     this.filterSurname.value = ""
     this.filterCf.value = ""
     this.filterGroup.value = ""
+    counterUndefined = 0;
 
 })
 
@@ -358,6 +435,28 @@ this.groupsSectionButton.addEventListener("click",()=>{
   location.href = "http://localhost:8083/groupSection"
 })
 
+this.logoutButton.addEventListener("click", async ()=>{
+
+  //mando richiesta di logout con le mie credenziali
+  response = await fetch('http://localhost:8083/logout', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        withCredentials: true
+      },
+      body: ""
+    });
+
+  
+    const content = await response.text();
+
+   if(content=="logout Ok"){
+    location.href = "http://localhost:8083/"
+    }else{
+     alert("Logout non riuscito")
+    }
+})
 
 
 

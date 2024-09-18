@@ -56,18 +56,19 @@ window.onload = ()=>{
           //lo potrei fare con una nuova richiesta get dove mando il mio cn
          if(content=="Ok"){
             alert("Salvataggio Gruppo Riuscito")
-            inputNameGroup.remove();
+           /* inputNameGroup.remove();
             buttonSaveGroup.remove();
             this.buttonAddUser.style.display ="inline-block"
             this.buttonAddGroup.style.display ="inline-block"
-            this.buttonBack.remove();
+            this.buttonBack.remove();*/
           }else{
-           this.loginError.style.display = "block"
+            alert("Errore nel salvataggio")
+           /*this.loginError.style.display = "block"
             this.buttonAddUser.style.display ="inline-block"
             this.buttonAddGroup.style.display ="inline-block"
             this.buttonBack.remove();
            inputNameGroup.remove();
-      buttonSaveGroup.remove();
+      buttonSaveGroup.remove();*/
           }
     })
 
@@ -101,6 +102,28 @@ window.onload = ()=>{
         location.href = "http://localhost:8083/groupSection"
       })
 
+      this.logoutButton.addEventListener("click", async ()=>{
+
+        //mando richiesta di logout con le mie credenziali
+        response = await fetch('http://localhost:8083/logout', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              withCredentials: true
+            },
+            body: ""
+          });
+
+        
+          const content = await response.text();
+     
+         if(content=="logout Ok"){
+          location.href = "http://localhost:8083/"
+          }else{
+           alert("Logout non riuscito")
+          }
+    })
 
 
 }
