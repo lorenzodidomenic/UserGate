@@ -8,13 +8,16 @@ slapd -F slapd.d  -d 0 & #per una directory, & serve per indicare che il comando
 
 sleep 6
 #ldapmodify -x -W -D "cn=admin,cn=config" -f addMemberOf.ldif
-ldapadd -x  -D "cn=admin,dc=unict,dc=ad" -w $ROOT_PW -f composeStructure.ldif &
-ldapadd -x  -D "cn=admin,ou=Studenti,dc=unict,dc=ad" -w $ROOT_PW -f composeStructureTraslucent.ldif &
+ldapadd -x  -D "cn=admin,dc=unict,dc=ad" -w $ROOT_PW -f composeStructure.ldif 
+ldapadd -x  -D "cn=admin,ou=Studenti,dc=unict,dc=ad" -w $ROOT_PW -f composeStructureTraslucent.ldif 
 ldapadd -x  -D "cn=admin,ou=Gruppi Studenti,dc=unict,dc=ad" -w $ROOT_PW -f compose2.ldif 
 
 echo "Proxy started"
 
-tail -f /dev/null  #per dire che non si deve aspettare più nulla in input
+tail -f /dev/null 
+
+
+ #per dire che non si deve aspettare più nulla in input
 #slapd -d 0  #slapd -d 32 se voglio il debugging
 
 

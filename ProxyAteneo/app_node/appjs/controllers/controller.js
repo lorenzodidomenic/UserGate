@@ -16,12 +16,16 @@ const client = ldap.createClient({
 
 const User = require("../models/user.js")
 const Group = require("../models/group.js")
-const Attribute = require("../models/attribute.js")
+const Attribute = require("../models/attribute.js");
 
-const client = new LdapClient({
-    url: serverUrl
+/*
+client = new LdapClient({
+   url: serverUrl,
+   reconnect: true,
+   timeout: 3000000,
+   connectTimeout: 300000
 })
-
+*/
 
 //ogni sessione contiene username dell'utene e il momento in cui scade la sessione
 /*
@@ -50,6 +54,14 @@ const loginView = async (req , res) =>{
     bindcf = "cn="+JSON.parse(entries[0]).cf+",ou=Studenti,dc=unict,dc=ad"
     bindpassword = JSON.parse(entries[1]).password
 
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+    })
+
+
     try {
         await client.bind(bindcf, bindpassword);
         console.log("bind andat a buon fine ")
@@ -71,9 +83,18 @@ const loginView = async (req , res) =>{
         console.log('Bind failed',e);
         res.status(401).send("Errore nelle credenziali")
       }
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
-
+const logoutView = (req,res)=>{
+    req.session.user = null;
+    res.status(200).send("logout Ok")
+}
 /* mi porta alla pagina inziale dove ci sono i due bottoni*/
 const introView = (req,res) =>{
    
@@ -130,6 +151,12 @@ const searchView = async (req,res)=>{
     const userSearchBase = "dc=unict,dc=ad";
 
     entries = [];
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
 
     try {
 
@@ -141,7 +168,8 @@ const searchView = async (req,res)=>{
             scope: 'sub',
             filter: req.query["query"],
             attributes: ["sn","givenName","cn","mail"],
-            timeLimit: 10000
+            timeLimit: 100000,
+            reconnect: true
         }
 
         results = []
@@ -172,12 +200,23 @@ const searchView = async (req,res)=>{
             console.log("no result")
             //dovrei mandare errore lato client
         }
-      } catch (e) {
+      } catch(e){
         console.log('Ricerca failed');
-        console.log("Eccezione: ",e)
+        console.log("Eccezione: ",e.code)
+        if(e.code == 4){
+            res.status(402).send("Ricerca troppo ampia")
+        }else{
         res.send("Errore nella ricerca")
+        }
+      }
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
       }
 }
+
 
 //mi ritorna le informazioni sull'utente con quel cn
 const userInfoView = async (req,res)=>{
@@ -185,8 +224,14 @@ const userInfoView = async (req,res)=>{
     const userSearchBase = "dc=unict,dc=ad";
 
     entries = [];
-    
-     try {
+    client = new LdapClient({
+    url: serverUrl,
+    reconnect: true,
+    timeout: 3000000,
+    connectTimeout: 300000
+    })
+
+    try {
 
         //await client.bind(bindcf, bindpassword);
         await client.bind(req.session.user[0],req.session.user[1])
@@ -232,7 +277,9 @@ const userInfoView = async (req,res)=>{
             entry[attributes] = entry[attributes] ?? "&#63;" ///se non definita vado a mettere ?
             entryAd[attributes] = entryAd[attributes] ?? "&#63;"
 
-            attr = new Attribute(attributes,String(entry[attributes]).replace(/\s/g, ''))
+            //attr = new Attribute(attributes,String(entry[attributes]).replace(/\s/g, ''))
+            attr = new Attribute(attributes,String(entry[attributes]))
+
             if((String(entry[attributes]).replace(/\s/g, '').toLowerCase() != String(entryAd[attributes]).replace(/\s/g, '').toLowerCase()) || (entryAd[attributes] == undefined))
                 attr.local = true;
             results.push(attr)
@@ -257,6 +304,12 @@ const userInfoView = async (req,res)=>{
         console.log("Eccezione: ",e)
         res.send("Errore nella ricerca")
       }
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 
@@ -266,6 +319,14 @@ const modifyUserView = async (req, res) => {
     const userSearchBase = "dc=unict,dc=ad";
     entries = [];
     filterString = "cn="+req.query["cn"]
+
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+    })
+
     if(req.session.user){
     try {
 
@@ -315,19 +376,23 @@ const modifyUserView = async (req, res) => {
         entryAd.givenName = entryAd.givenName ?? "undefined "
         entryAd.dn = entryAd.dn ?? "undefined "
 
-        attrSn = new Attribute("sn",entry.sn.replace(/\s/g, ''))
+       // attrSn = new Attribute("sn",entry.sn.replace(/\s/g, ''))
+       attrSn = new Attribute("sn",entry.sn)
         if(entry.sn.replace(/\s/g, '').toLowerCase() != entryAd.sn.replace(/\s/g, '').toLowerCase())
             attrSn.local = true;
         results.push(attrSn)
-        attrDn = new Attribute("dn",entry.dn.replace(/\s/g, ''))
+       //attrDn = new Attribute("dn",entry.dn.replace(/\s/g, ''))
+       attrDn = new Attribute("dn",entry.dn)
         if(entry.dn.replace(/\s/g, '').toLowerCase() != entryAd.dn.replace(/\s/g, '').toLowerCase())
             attrDn.local = true;
         results.push(attrDn)
-        attrCn = new Attribute("cn",entry.cn.replace(/\s/g, ''))
+        //attrCn = new Attribute("cn",entry.cn.replace(/\s/g, ''))
+        attrCn = new Attribute("cn",entry.cn)
         if(entry.cn.replace(/\s/g, '').toLowerCase() != entryAd.cn.replace(/\s/g, '').toLowerCase())
             attrCn.local = true;
         results.push(attrCn)
         attrGivenName = new Attribute("givenName",entry.givenName.replace(/\s/g, ''))
+        attrGivenName = new Attribute("givenName",entry.givenName)
         if(entry.givenName.replace(/\s/g, '').toLowerCase() != entryAd.givenName.replace(/\s/g, '').toLowerCase())
             attrGivenName.local = true;
         results.push(attrGivenName)
@@ -373,6 +438,12 @@ const modifyUserView = async (req, res) => {
     }else{
         res.status(401).send('Unauthorized. Please log in.');
     }
+
+    try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 
@@ -380,6 +451,12 @@ const modifyUserView = async (req, res) => {
 const modifyUserInfoView = async (req,res)=>{
 
     length = 0;
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
 
     try {
 
@@ -396,7 +473,8 @@ const modifyUserInfoView = async (req,res)=>{
             console.log(entry)
         //modifiedAttributes.push(JSON.parse(entry))
         
-        modifiedAttributes[Object.keys(JSON.parse(entry.replace(/\s/g, '')))] = JSON.parse(entry.replace(/\s/g, ''));
+        //modifiedAttributes[Object.keys(JSON.parse(entry.replace(/\s/g, '')))] = JSON.parse(entry.replace(/\s/g, ''));
+        modifiedAttributes[Object.keys(JSON.parse(entry))] = JSON.parse(entry);
         length++;
         }
 
@@ -415,7 +493,8 @@ const modifyUserInfoView = async (req,res)=>{
     change = {
     operation: 'replace',
     modification: {
-        sn: modifiedAttributes[attr][attr].replace(/\s/g, '')
+       // sn: modifiedAttributes[attr][attr].replace(/\s/g, '')
+       sn: modifiedAttributes[attr][attr]
     }
     }
 }
@@ -423,7 +502,8 @@ if(Object.keys(modifiedAttributes[attr])[0] =="cn"){
     change = {
     operation: 'replace',
     modification: {
-        cn: modifiedAttributes[attr][attr].replace(/\s/g, '')
+       // cn: modifiedAttributes[attr][attr].replace(/\s/g, '')
+       cn: modifiedAttributes[attr][attr]
     }
     }
 }
@@ -432,7 +512,8 @@ if(Object.keys(modifiedAttributes[attr])[0] =="givenName"){
     change = {
     operation: 'replace',
     modification: {
-        givenName: modifiedAttributes[attr][attr].replace(/\s/g, '')
+       // givenName: modifiedAttributes[attr][attr].replace(/\s/g, '')
+       givenName: modifiedAttributes[attr][attr]
     }
     }
 }
@@ -446,7 +527,13 @@ if(Object.keys(modifiedAttributes[attr])[0] =="givenName"){
     res.send("Modifica ok")
       } catch (e) {
         console.log("Eccezione: "+e);
-      }    
+      }   
+      
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 /* mi porta alla sezione ricerca gruppi*/
@@ -462,7 +549,12 @@ const searchGroupsView = async (req,res)=>{
 
 
     const userSearchBase = "ou=Gruppi Locali,dc=unict,dc=ad";
-
+client = new LdapClient({
+   url: serverUrl,
+   reconnect: true,
+   timeout: 3000000,
+   connectTimeout: 300000
+})
     entries = [];
     searchOptions = {
         scope: 'sub',
@@ -496,7 +588,8 @@ const searchGroupsView = async (req,res)=>{
             userExist = true;
 
         for(entry of entries){
-            group = new Group(entry.cn.replace(/\s/g, ''))
+            //group = new Group(entry.cn.replace(/\s/g, ''))
+            group = new Group(entry.cn)
             results.push(group)
         }
 
@@ -514,6 +607,13 @@ const searchGroupsView = async (req,res)=>{
         console.log("Eccezione: ",e)
         res.send("Errore nella ricerca")
       }
+
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 //API CHE Mi RITORNA LE INFORMAZIONI DI UN DETERMINATO GRUPPO
@@ -522,7 +622,12 @@ const groupInfoView = async (req,res)=>{
     
     // const userdn = "cn=DDMLNZ03B03F943C,ou=Studenti,dc=unict,dc=ad";
     const userSearchBase = "ou=Gruppi Locali,dc=unict,dc=ad";
-
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
     entries = [];
 
      try {
@@ -554,11 +659,14 @@ const groupInfoView = async (req,res)=>{
 
         
        if(entry != undefined){
-        attrDn = new Attribute("dn",entry.dn.replace(/\s/g, ''))
+        //attrDn = new Attribute("dn",entry.dn.replace(/\s/g, ''))
+        attrDn = new Attribute("dn",entry.dn)
         results.push(attrDn)
-        attrCn = new Attribute("cn",entry.cn.replace(/\s/g, ''))
+        //attrCn = new Attribute("cn",entry.cn.replace(/\s/g, ''))
+        attrCn = new Attribute("cn",entry.cn)
         results.push(attrCn)
-        attrObjectClass = new Attribute("objectClass",entry.objectClass.replace(/\s/g, ''))
+       // attrObjectClass = new Attribute("objectClass",entry.objectClass.replace(/\s/g, ''))
+       attrObjectClass = new Attribute("objectClass",entry.objectClass)
         results.push(attrObjectClass)
         
         member= Array.isArray(entry.member) ? entry.member: [entry.member];
@@ -580,11 +688,23 @@ const groupInfoView = async (req,res)=>{
         console.log("Eccezione: ",e)
         res.send("Errore nella ricerca")
       }
+
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 //api che mi permette di creare un nuovo gruppo
 const saveGroupView = async (req,res)=>{
-
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
     entries = req.body
     console.log(entries)
     newGroup = JSON.parse(entries[0]);
@@ -698,15 +818,29 @@ const saveGroupView = async (req,res)=>{
         console.log(e)
         console.log('Add failed');
       }
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 
 //api che mi permette di aggiungere member e memberof
 const addMemberView = async (req,res)=>{
- 
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
+    /*member = JSON.parse(req.body[1].replace(/\s/g, ''))
+    nameGroup = JSON.parse(req.body[0].replace(/\s/g, ''))*/
 
-    member = JSON.parse(req.body[1].replace(/\s/g, ''))
-    nameGroup = JSON.parse(req.body[0].replace(/\s/g, ''))
+    member = JSON.parse(req.body[1])
+    nameGroup = JSON.parse(req.body[0])
+
     
     
     entry = {
@@ -774,6 +908,11 @@ const addMemberView = async (req,res)=>{
         console.log("Errorre inseriemnto member",e);
     }
 
+    try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
     //modifica memberOf  
 }
 
@@ -784,7 +923,12 @@ const modifyMembershipView = async (req,res)=>{
     cnGroup = JSON.parse(req.body[0])  //qui ho cn del gruppo
 
     console.log(cnUtente,cnGroup)
-
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
     const clientAux= new LdapClient({
         url: serverUrl
     })
@@ -834,6 +978,12 @@ const modifyMembershipView = async (req,res)=>{
       } catch (e) {
         console.log("Errorre rimozione member of",e);
       }
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 
@@ -842,7 +992,12 @@ const newUserView = async (req,res)=>{
 }
 const saveUserView = async (req,res)=>{
 
-    
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
     entries = req.body
     newUserCn = JSON.parse(entries[0])
     newUserSn = JSON.parse(entries[1])
@@ -876,6 +1031,12 @@ const saveUserView = async (req,res)=>{
         console.log(e)
         console.log('Add failed');
       }
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 const newGroupView = async (req,res)=>{
@@ -886,7 +1047,12 @@ const deleteGroupView = async(req,res)=>{
 
     entries = req.body;
     cnGroup = JSON.parse(entries[0]);
-
+    client = new LdapClient({
+        url: serverUrl,
+        reconnect: true,
+        timeout: 3000000,
+        connectTimeout: 300000
+     })
     try{
         const userSearchBase = "ou=Gruppi Locali,dc=unict,dc=ad";
 
@@ -943,6 +1109,12 @@ const deleteGroupView = async(req,res)=>{
         console.log('Delete failed');
       }
 
+
+      try {
+        await client.destroy();
+      } catch (e) {
+        console.log("Errore distruzione client");
+      }
 }
 
 module.exports = { modifyUserView,
@@ -962,4 +1134,5 @@ module.exports = { modifyUserView,
                    saveUserView,
                    newUserView,
                    newGroupView,
-                   deleteGroupView} 
+                   deleteGroupView,
+                   logoutView} 
