@@ -1,8 +1,0 @@
-dn: cn=schema,cn=config
-changetype: modify
-add: olcAttributeTypes
-olcAttributeTypes: ( 1.3.6.1.4.1.4203.666.1.91
-   NAME 'memberOfGroup' DESC 'Membro' 
-   EQUALITY caseIgnoreMatch 
-   SUBSTR caseIgnoreSubstringsMatch 
-   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
