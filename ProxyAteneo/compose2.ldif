@@ -1,4 +1,0 @@
-dn: ou=Gruppi Studenti,dc=unict,dc=ad
-ou: Gruppi Studenti
-objectClass: organizationalUnit
-
