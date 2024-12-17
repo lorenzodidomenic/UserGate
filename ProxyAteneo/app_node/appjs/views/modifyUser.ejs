@@ -72,14 +72,14 @@
                                     <div class="col-sm-3">
                                       <h6 class="mb-0" style="font-size: 29px;text-transform: uppercase;margin-bottom: 3px;"><%=entries[i].type%></h6>
                                     </div>
-                                    <% if(entries[i].value[j].includes("Gruppi Locali")){%>
+                                    <% if(entries[i].value[j] != null){if(entries[i].value[j].includes("Gruppi Locali")){%>
                                     <div class="col-sm-9 text-secondary entrySpanInfo" id="<%=entries[i].type%>" style="margin-top: 1rem; display: inline"><%=entries[i].value[j]%></div>
                                     <button class="deleteMemberOfBtnForStyle"  cn="<%=entries[i].value[j]%>"> <img src="./assets/images/delete.png" class="deleteMemberOfBtn" cn="<%=entries[i].value[j] %>" style="cursor: pointer"> </button>
                                   </div>
                                   <%}else{%>
                                     <div class="col-sm-9 text-secondary entrySpanInfo" id="<%=entries[i].type%>" style="margin-top: 1rem; display: inline"><%=entries[i].value[j]%></div>
                                 </div>
-                                    <% } %>
+                                    <% }} %>
                                   <hr></hr>
                            <% }} else {%>
                             <%if(entries[i].local != true){%>

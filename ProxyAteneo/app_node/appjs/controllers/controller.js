@@ -5,7 +5,8 @@ const LdapClient = require("ldapjs-client")
 
 
 //QUESTE DOVREBBERO ESSERE VARIABILI D'AMBIENTE
-const serverUrl = 'ldap://10.0.200.20:389';   //indirizzo ip del container col server ldap
+//const serverUrl = 'ldap://10.0.200.20:389';   //indirizzo ip del container col server ldap
+const serverUrl = process.env.URI_SERVER_LDAP; 
 response_message = ""
 
 /* VECCHIA LIBRERIA
@@ -27,19 +28,7 @@ client = new LdapClient({
 })
 */
 
-//ogni sessione contiene username dell'utene e il momento in cui scade la sessione
-/*
-class Session{
-    constructor(username,expiresAt){
-        this.username = username;
-        this.expiresAt = expiresAt;
-    }
 
-    isExpired(){
-        this.expiresAt < (new Date());
-    }
-}*/
-//const sessions = {}; questo oggetto memorizza le sessioni
 
 /* reinderizzo pagina iniziale del login*/
 const indexView = (req, res) => {
@@ -258,7 +247,8 @@ const userInfoView = async (req,res)=>{
 
         //qui devo fare ricerca anche con un client che si connette ad active directory
         const clientToAD = new LdapClient({
-            url: "ldap://151.97.242.92"
+           // url: "ldap://151.97.242.92"
+           url: process.env.URI
         })
 
        // await clientToAD.bind(bindcf, bindpassword);
@@ -345,7 +335,8 @@ const modifyUserView = async (req, res) => {
         }
 
         const clientToAD = new LdapClient({
-            url: "ldap://151.97.242.92"
+           // url: "ldap://151.97.242.92"
+           url: process.env.URI
         })
 
         //await clientToAD.bind(bindcf, bindpassword);
@@ -731,7 +722,7 @@ const saveGroupView = async (req,res)=>{
         };
 
         
-      
+        
         await client.add("cn="+newGroup["cn"]+ ",ou=Gruppi Locali,dc=unict,dc=ad", entry);
 
 
@@ -756,6 +747,8 @@ const saveGroupView = async (req,res)=>{
             cn: nameMember,
             objectclass: 'top',
            };
+
+        console.log(entry)
         await client.add("cn="+nameMember+",ou=Studenti,dc=unict,dc=ad", entry);
         }
     }catch(e){
@@ -778,7 +771,7 @@ const saveGroupView = async (req,res)=>{
           }
         };
 
-        await client.modify('cn='+nameMember+',ou=Studenti,dc=unict,dc=ad', change2);
+        await client.modify('cn='+nameMember.toLowerCase()+',ou=Studenti,dc=unict,dc=ad', change2);
         console.log("modifica memberOf ok")
     }
       } catch (e) {

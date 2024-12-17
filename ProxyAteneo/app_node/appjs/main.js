@@ -29,4 +29,4 @@ app.use(express.json());
 app.use(bodyParser.json())
 //app.use(cookieParser());*/
 
-app.listen(8082)  //la porta dovrebb essere una variabile d'ambiente
+app.listen(process.env.PORT)  //la porta dovrebb essere una variabile d'ambiente
