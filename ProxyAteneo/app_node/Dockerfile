@@ -4,6 +4,12 @@ FROM node:22-slim
 WORKDIR /tmp/app 
 ADD appjs .
 
+#URI SERVER LDAP DELL'UNIVERSITA'
+ENV URI ""
+#URI SERVER OPENLDAP LOCALHOST 
+ENV URI_SERVER_LDAP ''
+#PORTA DOVE ASCOLTA IL SERVER OPENLDAP LOCALHOST
+ENV PORT 8082
 WORKDIR /tmp/app/appjs
 #RUN apt-get update
 #RUN apt-get install -y python3
@@ -20,5 +26,4 @@ RUN npm install ldapjs-client
 RUN npm install 
 
 
-
-#gli dovrei montare un file con il serve express attivo e mettere come entrypoint npm start
+##

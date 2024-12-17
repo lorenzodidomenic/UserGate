@@ -2,7 +2,7 @@ version: "1.0"
 services: 
   proxy:
       #image: proxy
-      build: .
+      build: ./openldap
       hostname: proxy
       container_name: proxy
       ports:

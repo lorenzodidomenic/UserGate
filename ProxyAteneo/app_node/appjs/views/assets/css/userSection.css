@@ -202,7 +202,7 @@ body{
 
 #filterContainer #row input[group]{
     display: inline-block;
-    width: 30%;
+    width: 33%;
     height: 6vh;
     border: 5%;
     outline: none;
@@ -666,15 +666,20 @@ select {
 
     appearance: none;
     border: none;
-    padding: 0 1em 0 0;
-    margin: 0;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    margin: 0.6em;
     font-family: inherit;
     font-size: inherit;
     cursor: inherit;
     line-height: inherit;
     margin-top: 5px;
-    background: #f2f2f2;
-    background-color:  #f2f2f2;;
+    background: #154e7f;
+    background-color:  #154e7f;
+    color: white;
+  }
+
+  option{
+    padding: 0.5em 0.5em 0.5em 0.5em;
   }
 
 select::after {
