@@ -3,7 +3,7 @@
 ## UserGate: un LDAP Translucent Proxy per la gestione degli utenti UNICT
 
 ### COS'E'
-L’Universit`a di Catania , come tutti gli enti pubblici, ha negli anni trovato il bisogno di gestire le informazioni riguardo ad
+L’Università di Catania , come tutti gli enti pubblici, ha negli anni trovato il bisogno di gestire le informazioni riguardo ad
 un numero elevatissimo di utenti e di dare ad essi autorizzazzioni ed accesso a risorse messe a disposizione dalla rete universitaria. Proprio per questo anche UNICT basa questa gestione sul servizio di directory Microsoft Active Directory, che permette l’archiviazione di informazioni su utenti e oggetti nella rete. Uno degli aspetti del servizio di directory che l’amministrazionedell’Universita' di Catania sfrutta è la possibilità di suddividere le utenze in gruppi, ovvero di poter creare particolari raggruppamenti in base alle esigenze e gestire i controlli di accesso e le autorizzazioni a particolari servizi sulla base della membership degli utenti a questi, in modo da garantire controlli di sicurezza pi`u granulari.
 
 Potrebbe tornare utile, per ogni dipartimento, avere un sistema locale di gestione di utenti e gruppi, permettendo quindi, ad esempio, la creazione di entità o membership locali in maniera veloce e sicura, sulla quale poi verrano garantiti particolari accessi a risorse del dipartimento. Possiamo fare un esempio banale: supponiamo che nel nostro dipartimento nasca l’esigenza di creare un gruppo ”Test” ed aggiungervi solo particolari utenti del dipartimento, in modo da dar loro autorizzazioni particolari. Questo dovrebbe essere gestito in maniera globale a livello d’ateneo e potrebbe essere poco scalabaile.
