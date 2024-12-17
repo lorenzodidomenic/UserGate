@@ -23,7 +23,7 @@ ENV REMOTE_ATTRIBUTES "member,memberOf"
 ENV BIND_DN ""
 ENV BIND_PW ""
 #URI SERVER LDAP UNIVERSITA'
-ENV URI "ldap://151.97.242.92"
+ENV URI ""
 
 
 ADD manager.sh /etc/ldap/manager.sh
