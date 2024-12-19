@@ -1,8 +1,13 @@
+
 /* parte utente info*/
+
+*{
+    font-family: 'Geist','Lexend', sans-serif;
+}
 .main-body {
     padding: 15px;
     margin: 5%;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+ 
    /* font-family: FontAwesome;*/
 }
 .card {
