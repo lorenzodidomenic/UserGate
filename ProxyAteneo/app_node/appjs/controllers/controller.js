@@ -7,6 +7,7 @@ const LdapClient = require("ldapjs-client")
 //QUESTE DOVREBBERO ESSERE VARIABILI D'AMBIENTE
 //const serverUrl = 'ldap://10.0.200.20:389';   //indirizzo ip del container col server ldap
 const serverUrl = process.env.URI_SERVER_LDAP; 
+const serverUri = process.env.URI
 response_message = ""
 
 /* VECCHIA LIBRERIA
@@ -244,11 +245,11 @@ const userInfoView = async (req,res)=>{
             userExist = true;
             entry = entries[0]
         }
-
+        console.log(process.env.URI)
         //qui devo fare ricerca anche con un client che si connette ad active directory
         const clientToAD = new LdapClient({
            // url: "ldap://151.97.242.92"
-           url: process.env.URI
+           url: serverUri
         })
 
        // await clientToAD.bind(bindcf, bindpassword);

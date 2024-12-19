@@ -8,6 +8,10 @@ services:
       ports:
             - 389:389
       command: manager.sh
+      environment: 
+                - URI=${URI}
+                - BIND_DN=${BIND_DN}
+                - BIND_PW=${BIND_PW}
       networks: 
                 dmii:
                     ipv4_address: 10.0.200.20
@@ -16,6 +20,8 @@ services:
       build: ./app_node
       hostname: app
       container_name: app
+      environment: 
+                - URI=${URI}
       ports: 
            - 8083:8082
       command: npm start
