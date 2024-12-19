@@ -245,10 +245,9 @@ const userInfoView = async (req,res)=>{
             userExist = true;
             entry = entries[0]
         }
-        console.log(process.env.URI)
+       
         //qui devo fare ricerca anche con un client che si connette ad active directory
         const clientToAD = new LdapClient({
-           // url: "ldap://151.97.242.92"
            url: serverUri
         })
 
