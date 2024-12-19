@@ -18,9 +18,9 @@ Maggiori dettagli riguardo l'implementazione e la struttura del progetto è poss
 ## COME PROVARE L'APPLICAZIONE
 Per poter utilizzare l'operazione bisogna creare nella cartella principale ProxyAteneo un file .env dove settare
 
-BIND_DN=
-BIND_PW=
-URI=
+BIND_DN=\n
+BIND_PW=\n
+URI=\n
 
 - la variabile d'ambiente che contiene il nome utente dell'amministratore che vuole utilizzre l'applicazione
 - la variabile d'ambiente che contiene la password dell'amministratore che vuole utilizzare l'applicazione
