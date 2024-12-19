@@ -16,12 +16,15 @@ Software di gestione delle risorse tramite protocollo LDAP che è configurato in
 Maggiori dettagli riguardo l'implementazione e la struttura del progetto è possibile trovarli nel file Tesi_di_Laurea__UserGate.pdf
 
 ## COME PROVARE L'APPLICAZIONE
-Per poter utilizzare l'operazione bisogna settare alcune variabili d'ambiente come:
+Per poter utilizzare l'operazione bisogna creare nella cartella principale ProxyAteneo un file .env dove settare
+
+BIND_DN=
+BIND_PW=
+URI=
 
 - la variabile d'ambiente che contiene il nome utente dell'amministratore che vuole utilizzre l'applicazione
 - la variabile d'ambiente che contiene la password dell'amministratore che vuole utilizzare l'applicazione
 - l'indirizzo ip dell'Active Directory d'Ateneo
 
 Lanciare il comando (avendo installato l'engine Docker), posizionandosi nella cartella ProxyAteneo
-- docker compose -f compose.yml build
-- docker compose -f compose.yml up
+-  docker compose --env-file .env  up
