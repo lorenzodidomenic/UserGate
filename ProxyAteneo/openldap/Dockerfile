@@ -20,10 +20,10 @@ ENV LOCAL_ATTRIBUTES "member,memberOf,objectClass"
 ENV REMOTE_ATTRIBUTES "member,memberOf"
 #CREDENZIALI AMMINISTRATORE (di default chi entra con queste credenziali può modificare)
 #ex "cn=codice fiscale,ou=Studenti,dc=unict,dc=ad"
-ENV BIND_DN ""
-ENV BIND_PW ""
+#ENV BIND_DN "${BIND_DN}"
+#ENV BIND_PW "${BIND_PW}"
 #URI SERVER LDAP UNIVERSITA'
-ENV URI ""
+#ENV URI "${URI}"
 
 
 ADD manager.sh /etc/ldap/manager.sh
