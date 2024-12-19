@@ -28,5 +28,8 @@ URI=
 - la variabile d'ambiente che contiene la password dell'amministratore che vuole utilizzare l'applicazione
 - l'indirizzo ip dell'Active Directory d'Ateneo
 
+
+Tutte e 3 le varibabili devono essere inizializzate con delle stringe. 
+
 Lanciare il comando (avendo installato l'engine Docker), posizionandosi nella cartella ProxyAteneo
 -  docker compose --env-file .env  up
