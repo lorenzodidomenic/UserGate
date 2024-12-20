@@ -33,4 +33,5 @@ Tutte e 3 le varibabili devono essere inizializzate con delle stringe.
 
 Lanciare il comando (avendo installato l'engine Docker), posizionandosi nella cartella ProxyAteneo
 -  docker compose --env-file .env  up
+
 L'applicazione sarà attiva in localhost:8083
